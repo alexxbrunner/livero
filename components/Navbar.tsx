@@ -230,51 +230,155 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="lg:hidden border-t border-neutral-200 bg-white">
-          <div className="max-w-7xl mx-auto px-4 py-6 space-y-4">
-            <Link href="/categories" className="block py-2 text-neutral-900 font-medium">
-              All Categories
-            </Link>
-            <Link href="/city/vienna" className="block py-2 text-neutral-900 font-medium">
-              Vienna
-            </Link>
-            <Link href="/brands" className="block py-2 text-neutral-900 font-medium">
-              Brands
-            </Link>
-            <Link href="/about" className="block py-2 text-neutral-900 font-medium">
-              About
-            </Link>
-            {user ? (
-              <>
-                {user.role === 'CUSTOMER' && (
-                  <Link href="/favorites" className="block py-2 text-neutral-900 font-medium">
-                    My Favorites
+        <div className="lg:hidden border-t border-neutral-200 bg-white max-h-[calc(100vh-120px)] overflow-y-auto">
+          <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+            
+            {/* Featured Categories Section */}
+            <div>
+              <h3 className="text-xs uppercase tracking-widest text-neutral-500 font-semibold mb-3 px-2">
+                Featured Categories
+              </h3>
+              <div className="space-y-2">
+                {categories.slice(0, 6).map((category) => (
+                  <Link
+                    key={category.id}
+                    href={`/category/${category.slug}`}
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-neutral-50 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                      <img 
+                        src={category.image} 
+                        alt={category.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-neutral-900 text-sm">{category.name}</p>
+                      <p className="text-xs text-neutral-500">{category.description}</p>
+                    </div>
                   </Link>
-                )}
-                {user.role === 'STORE' && (
-                  <Link href="/store-dashboard" className="block py-2 text-neutral-900 font-medium">
-                    Dashboard
+                ))}
+              </div>
+              <Link 
+                href="/categories" 
+                className="block mt-3 text-sm text-neutral-600 hover:text-neutral-900 font-medium px-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                View All Categories →
+              </Link>
+            </div>
+
+            {/* Cities Section */}
+            <div className="pt-4 border-t border-neutral-100">
+              <h3 className="text-xs uppercase tracking-widest text-neutral-500 font-semibold mb-3 px-2">
+                Our Cities
+              </h3>
+              <Link
+                href="/city/vienna"
+                className="flex items-center gap-4 p-3 rounded-lg hover:bg-neutral-50 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                  <img 
+                    src="https://images.unsplash.com/photo-1609856878074-cf31e21ccb6b?w=400" 
+                    alt="Vienna"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="font-semibold text-neutral-900">Vienna</p>
+                  <p className="text-sm text-neutral-500">Austria</p>
+                  <p className="text-xs text-neutral-400 mt-1">3 stores · 27 products</p>
+                </div>
+              </Link>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="pt-4 border-t border-neutral-100 space-y-2">
+              <Link 
+                href="/brands" 
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-neutral-900 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Store className="w-5 h-5" />
+                Brands
+              </Link>
+              <Link 
+                href="/about" 
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-neutral-900 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About
+              </Link>
+            </div>
+
+            {/* User Section */}
+            <div className="pt-4 border-t border-neutral-100">
+              {user ? (
+                <>
+                  <div className="px-2 mb-3">
+                    <p className="font-medium text-neutral-900 text-sm">{user.name || user.email}</p>
+                    <p className="text-xs text-neutral-500 capitalize">{user.role.toLowerCase()} Account</p>
+                  </div>
+                  {user.role === 'CUSTOMER' && (
+                    <Link 
+                      href="/favorites" 
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-neutral-900 font-medium"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Heart className="w-5 h-5" />
+                      My Favorites
+                    </Link>
+                  )}
+                  {user.role === 'STORE' && (
+                    <Link 
+                      href="/store-dashboard" 
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-neutral-900 font-medium"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Store className="w-5 h-5" />
+                      Dashboard
+                    </Link>
+                  )}
+                  {user.role === 'ADMIN' && (
+                    <Link 
+                      href="/admin" 
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-neutral-900 font-medium"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <User className="w-5 h-5" />
+                      Admin Panel
+                    </Link>
+                  )}
+                  <button 
+                    onClick={() => { handleLogout(); setIsMenuOpen(false); }} 
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors text-red-600 font-medium w-full text-left mt-2"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    href="/login" 
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-neutral-900 font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <User className="w-5 h-5" />
+                    Login
                   </Link>
-                )}
-                {user.role === 'ADMIN' && (
-                  <Link href="/admin" className="block py-2 text-neutral-900 font-medium">
-                    Admin Panel
+                  <Link 
+                    href="/register" 
+                    className="flex items-center gap-3 p-3 rounded-lg bg-neutral-900 hover:bg-neutral-800 transition-colors text-white font-medium mt-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Create Account
                   </Link>
-                )}
-                <button onClick={handleLogout} className="block py-2 text-red-600 font-medium text-left w-full">
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="block py-2 text-neutral-900 font-medium">
-                  Login
-                </Link>
-                <Link href="/register" className="block py-2 text-neutral-900 font-medium">
-                  Register
-                </Link>
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
