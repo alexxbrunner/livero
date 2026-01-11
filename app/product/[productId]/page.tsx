@@ -9,6 +9,8 @@ import api from '@/lib/api'
 import toast from 'react-hot-toast'
 import { Store, ArrowLeft, ExternalLink, Phone, Mail, Award, Tag, ChevronDown, ChevronUp } from 'lucide-react'
 import { useI18n } from '@/contexts/I18nContext'
+import { trackProductView, trackProductClick } from '@/lib/analytics'
+import { fbViewContent } from '@/lib/facebook-pixel'
 
 export default function ProductPage() {
   const { t } = useI18n()
@@ -37,6 +39,24 @@ export default function ProductPage() {
     try {
       const { data } = await api.get(`/products/${productId}`)
       setProduct(data)
+      
+      // Track product view in Google Analytics
+      trackProductView({
+        id: data.id,
+        name: data.title,
+        price: data.price,
+        category: data.category || 'Uncategorized',
+        brand: data.brand || data.store?.name,
+      })
+      
+      // Track product view in Facebook Pixel
+      fbViewContent({
+        id: data.id,
+        name: data.title,
+        price: data.price,
+        category: data.category,
+        brand: data.brand || data.store?.name,
+      })
       
       // Fetch related products (same category or city)
       if (data.city?.slug) {

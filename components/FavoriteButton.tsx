@@ -6,14 +6,24 @@ import { useAuthStore } from '@/store/authStore'
 import api from '@/lib/api'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { trackAddToFavorites } from '@/lib/analytics'
+import { fbAddToWishlist } from '@/lib/facebook-pixel'
 
 interface FavoriteButtonProps {
   productId: string
+  productName?: string
+  productPrice?: number
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }
 
-export default function FavoriteButton({ productId, size = 'md', className = '' }: FavoriteButtonProps) {
+export default function FavoriteButton({ 
+  productId, 
+  productName,
+  productPrice,
+  size = 'md', 
+  className = '' 
+}: FavoriteButtonProps) {
   const { user } = useAuthStore()
   const router = useRouter()
   const [isFavorite, setIsFavorite] = useState(false)
@@ -73,6 +83,22 @@ export default function FavoriteButton({ productId, size = 'md', className = '' 
         await api.post(`/customer/favorites/${productId}`)
         setIsFavorite(true)
         toast.success('Added to favorites')
+        
+        // Track add to favorites in Google Analytics
+        if (productName && productPrice) {
+          trackAddToFavorites({
+            id: productId,
+            name: productName,
+            price: productPrice,
+          })
+          
+          // Track in Facebook Pixel
+          fbAddToWishlist({
+            id: productId,
+            name: productName,
+            price: productPrice,
+          })
+        }
       }
     } catch (error: any) {
       console.error('Error toggling favorite:', error)

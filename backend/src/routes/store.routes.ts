@@ -15,7 +15,7 @@ router.post(
   [
     body('name').notEmpty(),
     body('cityId').notEmpty(),
-    body('platform').isIn(['SHOPIFY', 'WOOCOMMERCE', 'SHOPWARE']),
+    body('platform').isIn(['SHOPIFY', 'WOOCOMMERCE', 'SHOPWARE', 'SHOPTET']),
     body('credentials').isObject(),
   ],
   async (req: AuthRequest, res: any) => {

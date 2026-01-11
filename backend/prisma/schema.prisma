@@ -33,6 +33,7 @@ enum Platform {
   SHOPIFY
   WOOCOMMERCE
   SHOPWARE
+  SHOPTET
 }
 
 enum SyncStatus {

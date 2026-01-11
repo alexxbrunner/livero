@@ -46,6 +46,9 @@ export async function syncStoreProducts(storeId: string): Promise<void> {
       case 'SHOPWARE':
         products = await syncShopware(store.credentials as any);
         break;
+      case 'SHOPTET':
+        products = await syncShoptet(store.credentials as any);
+        break;
     }
 
     // Upsert products
@@ -172,6 +175,23 @@ async function syncShopware(credentials: any): Promise<ProductData[]> {
     return generateMockProducts(10);
   } catch (error) {
     console.error('Shopware sync error:', error);
+    throw error;
+  }
+}
+
+async function syncShoptet(credentials: any): Promise<ProductData[]> {
+  // Mock implementation - replace with actual Shoptet API calls
+  const { shopUrl, apiKey, shopId } = credentials;
+
+  try {
+    // Example: GET /api/products
+    // This is a mock - implement actual Shoptet API integration
+    console.log('Syncing from Shoptet:', shopUrl);
+
+    // Return mock data for now
+    return generateMockProducts(10);
+  } catch (error) {
+    console.error('Shoptet sync error:', error);
     throw error;
   }
 }
