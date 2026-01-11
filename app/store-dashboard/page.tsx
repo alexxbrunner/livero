@@ -10,8 +10,10 @@ import toast from 'react-hot-toast'
 import { 
   Package, Eye, MousePointerClick, Mail, TrendingUp, TrendingDown, RefreshCw, Target
 } from 'lucide-react'
+import { useI18n } from '@/contexts/I18nContext'
 
 export default function StoreDashboardHome() {
+  const { t } = useI18n()
   const router = useRouter()
   const { token } = useAuthStore()
   const [store, setStore] = useState<any>(null)
@@ -57,10 +59,10 @@ export default function StoreDashboardHome() {
     setSyncing(true)
     try {
       await api.post('/stores/me/sync')
-      toast.success('Sync started! This may take a few minutes.')
+      toast.success(t('dashboard.syncStarted'))
       setTimeout(fetchData, 2000)
     } catch (error) {
-      toast.error('Failed to start sync')
+      toast.error(t('dashboard.syncFailed'))
     } finally {
       setSyncing(false)
     }
@@ -71,7 +73,7 @@ export default function StoreDashboardHome() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-neutral-600">Loading dashboard...</p>
+          <p className="text-neutral-600">{t('dashboard.loading')}</p>
         </div>
       </div>
     )
@@ -84,27 +86,27 @@ export default function StoreDashboardHome() {
       <div className="p-8 lg:p-12">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-5xl font-serif font-medium text-neutral-900 mb-3 tracking-tight">Dashboard</h1>
-          <p className="text-lg text-neutral-600 font-light">Welcome back! Here's what's happening with your store.</p>
+          <h1 className="text-5xl font-serif font-medium text-neutral-900 mb-3 tracking-tight">{t('dashboard.title')}</h1>
+          <p className="text-lg text-neutral-600 font-light">{t('dashboard.welcome')}</p>
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <Link href="/store-dashboard/products" className="group bg-white border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 hover:border-neutral-300">
             <Package className="w-12 h-12 text-neutral-900 mb-6 stroke-[1.5]" />
-            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">Manage Products</h3>
-            <p className="text-neutral-600 font-light mb-4">{store._count?.products || 0} products synced</p>
+            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">{t('dashboard.manageProducts')}</h3>
+            <p className="text-neutral-600 font-light mb-4">{t('dashboard.productsSynced', { count: store._count?.products || 0 })}</p>
             <span className="text-xs uppercase tracking-widest text-neutral-900 border-b border-neutral-300 pb-1 group-hover:border-neutral-900 transition-colors">
-              View Products →
+              {t('dashboard.viewProducts')}
             </span>
           </Link>
           
           <Link href="/store-dashboard/analytics" className="group bg-white border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 hover:border-neutral-300">
             <TrendingUp className="w-12 h-12 text-green-600 mb-6 stroke-[1.5]" />
-            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">View Analytics</h3>
-            <p className="text-neutral-600 font-light mb-4">Detailed performance metrics</p>
+            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">{t('dashboard.viewAnalytics')}</h3>
+            <p className="text-neutral-600 font-light mb-4">{t('dashboard.detailedMetrics')}</p>
             <span className="text-xs uppercase tracking-widest text-neutral-900 border-b border-neutral-300 pb-1 group-hover:border-neutral-900 transition-colors">
-              View Analytics →
+              {t('dashboard.viewAnalyticsLink')}
             </span>
           </Link>
           
@@ -114,10 +116,10 @@ export default function StoreDashboardHome() {
             className="group bg-white border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 text-left disabled:opacity-50 hover:border-neutral-300"
           >
             <RefreshCw className={`w-12 h-12 text-blue-600 mb-6 stroke-[1.5] ${syncing ? 'animate-spin' : ''}`} />
-            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">Sync Products</h3>
-            <p className="text-neutral-600 font-light mb-4">{syncing ? 'Syncing...' : 'Update your catalog'}</p>
+            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">{t('dashboard.syncProducts')}</h3>
+            <p className="text-neutral-600 font-light mb-4">{syncing ? t('dashboard.syncing') : t('dashboard.updateCatalog')}</p>
             <span className="text-xs uppercase tracking-widest text-neutral-900 border-b border-neutral-300 pb-1 group-hover:border-neutral-900 transition-colors">
-              {syncing ? 'Syncing...' : 'Sync Now →'}
+              {syncing ? t('dashboard.syncing') : t('dashboard.syncNow')}
             </span>
           </button>
         </div>
@@ -125,29 +127,29 @@ export default function StoreDashboardHome() {
         {/* Stats Overview */}
         {analytics && (
           <div className="mb-12">
-            <h2 className="text-3xl font-serif font-medium text-neutral-900 mb-8 tracking-tight">Performance Overview</h2>
+            <h2 className="text-3xl font-serif font-medium text-neutral-900 mb-8 tracking-tight">{t('dashboard.performanceOverview')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatCard
                 icon={<Eye className="w-6 h-6" />}
-                label="Views (7 days)"
+                label={t('dashboard.views7days')}
                 value={analytics.traffic.views.toLocaleString()}
                 color="blue"
               />
               <StatCard
                 icon={<MousePointerClick className="w-6 h-6" />}
-                label="Clicks (7 days)"
+                label={t('dashboard.clicks7days')}
                 value={analytics.traffic.clicks.toLocaleString()}
                 color="green"
               />
               <StatCard
                 icon={<Mail className="w-6 h-6" />}
-                label="Info Requests"
+                label={t('dashboard.infoRequests')}
                 value={analytics.traffic.requests.toLocaleString()}
                 color="purple"
               />
               <StatCard
                 icon={<Target className="w-6 h-6" />}
-                label="Conversion Rate"
+                label={t('dashboard.conversionRate')}
                 value={`${analytics.traffic.conversionRate.toFixed(1)}%`}
                 color="orange"
               />
@@ -158,9 +160,9 @@ export default function StoreDashboardHome() {
         {/* Recent Activity */}
         <div className="bg-white border border-neutral-200 p-8 mb-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-serif font-medium text-neutral-900">Recent Sync Activity</h2>
+            <h2 className="text-2xl font-serif font-medium text-neutral-900">{t('dashboard.recentSyncActivity')}</h2>
             <Link href="/store-dashboard/products" className="text-xs uppercase tracking-widest text-neutral-600 hover:text-neutral-900 border-b border-neutral-300 hover:border-neutral-900 pb-1 transition-colors">
-              View all →
+              {t('dashboard.viewAll')}
             </Link>
           </div>
           <div className="space-y-4">
@@ -172,11 +174,11 @@ export default function StoreDashboardHome() {
                   </span>
                   <div>
                     <p className="font-medium text-neutral-900">
-                      {log.message || 'Sync completed'}
+                      {log.message || t('dashboard.syncCompleted')}
                     </p>
                     <p className="text-sm text-neutral-600 font-light">
                       {new Date(log.startedAt).toLocaleString()}
-                      {log.itemsSynced > 0 && ` · ${log.itemsSynced} items`}
+                      {log.itemsSynced > 0 && ` · ${t('dashboard.itemsSynced', { count: log.itemsSynced })}`}
                     </p>
                   </div>
                 </div>
@@ -194,17 +196,17 @@ export default function StoreDashboardHome() {
               </div>
             ))}
             {syncLogs.length === 0 && (
-              <p className="text-center text-neutral-500 py-12 font-light">No sync history yet</p>
+              <p className="text-center text-neutral-500 py-12 font-light">{t('dashboard.noSyncHistory')}</p>
             )}
           </div>
         </div>
 
         {/* Store Status */}
         <div className="bg-white border border-neutral-200 p-8">
-          <h2 className="text-2xl font-serif font-medium text-neutral-900 mb-6">Store Status</h2>
+          <h2 className="text-2xl font-serif font-medium text-neutral-900 mb-6">{t('dashboard.storeStatus')}</h2>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs uppercase tracking-widest text-neutral-500 font-medium mb-2">Current Status</p>
+              <p className="text-xs uppercase tracking-widest text-neutral-500 font-medium mb-2">{t('dashboard.currentStatus')}</p>
               <span
                 className={`inline-flex px-4 py-2 text-xs font-medium uppercase tracking-wider ${
                   store.status === 'ACTIVE'
@@ -219,7 +221,7 @@ export default function StoreDashboardHome() {
             </div>
             {store.lastSyncAt && (
               <div className="text-right">
-                <p className="text-xs uppercase tracking-widest text-neutral-500 font-medium mb-2">Last Sync</p>
+                <p className="text-xs uppercase tracking-widest text-neutral-500 font-medium mb-2">{t('dashboard.lastSync')}</p>
                 <p className="text-sm font-medium text-neutral-900">
                   {new Date(store.lastSyncAt).toLocaleDateString()}
                 </p>

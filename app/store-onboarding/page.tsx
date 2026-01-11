@@ -6,9 +6,11 @@ import { useAuthStore } from '@/store/authStore';
 import OnboardingLayout from '@/components/OnboardingLayout';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
-import { Store, ShoppingBag, CreditCard, CheckCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { Store, ShoppingBag, CreditCard, CheckCircle, ArrowRight, Loader2, Check } from 'lucide-react';
+import { useI18n } from '@/contexts/I18nContext';
 
 export default function StoreOnboardingPage() {
+  const { t } = useI18n();
   const router = useRouter();
   const { user, token } = useAuthStore();
   const [currentStep, setCurrentStep] = useState(1);
@@ -75,10 +77,10 @@ export default function StoreOnboardingPage() {
 
     try {
       await api.post('/stores', storeFormData);
-      toast.success('Store connected successfully!');
+      toast.success(t('onboarding.messages.storeConnected'));
       setCurrentStep(3);
     } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to connect store');
+      toast.error(error.response?.data?.error || t('onboarding.messages.connectFailed'));
     } finally {
       setLoading(false);
     }
@@ -89,10 +91,10 @@ export default function StoreOnboardingPage() {
     try {
       // Update store with selected plan (if needed)
       await api.patch('/stores/me', { plan: selectedPlan });
-      toast.success('Onboarding completed!');
+      toast.success(t('onboarding.messages.onboardingCompleted'));
       router.push('/store-dashboard');
     } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Failed to complete onboarding');
+      toast.error(error.response?.data?.error || t('onboarding.messages.onboardingFailed'));
     } finally {
       setLoading(false);
     }
@@ -159,10 +161,10 @@ export default function StoreOnboardingPage() {
             </div>
 
             <h1 className="text-4xl lg:text-5xl font-serif font-medium text-neutral-900 mb-4 tracking-tight">
-              Welcome to Livero!
+              {t('onboarding.welcome.title')}
             </h1>
             <p className="text-lg text-neutral-600 font-light mb-12 max-w-2xl mx-auto">
-              Your account has been created successfully. Let's get your store connected and set up in just a few minutes.
+              {t('onboarding.welcome.subtitle')}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -171,10 +173,10 @@ export default function StoreOnboardingPage() {
                   <Store className="w-6 h-6 text-white stroke-[1.5]" />
                 </div>
                 <h3 className="text-sm uppercase tracking-widest font-medium text-neutral-900 mb-2">
-                  Connect Store
+                  {t('onboarding.welcome.connectStore')}
                 </h3>
                 <p className="text-sm text-neutral-600 font-light">
-                  Link your Shopify or WooCommerce store
+                  {t('onboarding.welcome.connectStoreDesc')}
                 </p>
               </div>
 
@@ -183,10 +185,10 @@ export default function StoreOnboardingPage() {
                   <CreditCard className="w-6 h-6 text-white stroke-[1.5]" />
                 </div>
                 <h3 className="text-sm uppercase tracking-widest font-medium text-neutral-900 mb-2">
-                  Choose Plan
+                  {t('onboarding.welcome.choosePlan')}
                 </h3>
                 <p className="text-sm text-neutral-600 font-light">
-                  Select the perfect plan for your business
+                  {t('onboarding.welcome.choosePlanDesc')}
                 </p>
               </div>
 
@@ -195,10 +197,10 @@ export default function StoreOnboardingPage() {
                   <ShoppingBag className="w-6 h-6 text-white stroke-[1.5]" />
                 </div>
                 <h3 className="text-sm uppercase tracking-widest font-medium text-neutral-900 mb-2">
-                  Go Live
+                  {t('onboarding.welcome.goLive')}
                 </h3>
                 <p className="text-sm text-neutral-600 font-light">
-                  Start reaching customers in your city
+                  {t('onboarding.welcome.goLiveDesc')}
                 </p>
               </div>
             </div>
@@ -207,7 +209,7 @@ export default function StoreOnboardingPage() {
               onClick={() => setCurrentStep(2)}
               className="bg-neutral-900 text-white px-8 py-4 hover:bg-neutral-800 transition-all inline-flex items-center gap-3 text-sm uppercase tracking-widest font-medium"
             >
-              Get Started
+              {t('onboarding.welcome.getStarted')}
               <ArrowRight className="w-5 h-5 stroke-[2]" />
             </button>
           </div>
@@ -218,10 +220,10 @@ export default function StoreOnboardingPage() {
           <div>
             <div className="mb-12">
               <h1 className="text-4xl lg:text-5xl font-serif font-medium text-neutral-900 mb-4 tracking-tight">
-                Connect Your Store
+                {t('onboarding.connectStore.title')}
               </h1>
               <p className="text-lg text-neutral-600 font-light">
-                Link your e-commerce platform to start syncing products and managing your presence on Livero.
+                {t('onboarding.connectStore.subtitle')}
               </p>
             </div>
 
@@ -500,10 +502,10 @@ export default function StoreOnboardingPage() {
           <div>
             <div className="mb-12 text-center">
               <h1 className="text-4xl lg:text-5xl font-serif font-medium text-neutral-900 mb-4 tracking-tight">
-                Choose Your Plan
+                {t('onboarding.choosePlan.title')}
               </h1>
               <p className="text-lg text-neutral-600 font-light max-w-2xl mx-auto">
-                Select the plan that best fits your business needs. You can change or cancel anytime.
+                {t('onboarding.choosePlan.subtitle')}
               </p>
             </div>
 

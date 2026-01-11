@@ -6,8 +6,10 @@ import Link from 'next/link';
 import DefaultLayout from '@/components/DefaultLayout';
 import api from '@/lib/api';
 import { Search, Package, Store as StoreIcon, TrendingUp } from 'lucide-react';
+import { useI18n } from '@/contexts/I18nContext';
 
 export default function SearchResultsPage() {
+  const { t } = useI18n();
   const searchParams = useSearchParams();
   const query = searchParams.get('q');
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ export default function SearchResultsPage() {
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-neutral-600 font-light">Searching...</p>
+            <p className="text-neutral-600 font-light">{t('search.searching')}</p>
           </div>
         </div>
       </DefaultLayout>
@@ -52,11 +54,8 @@ export default function SearchResultsPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-serif font-medium text-neutral-900 mb-2 tracking-tight">
-            Search Results
+            {t('search.results', { count: (results?.total || 0).toString(), query: query || '' })}
           </h1>
-          <p className="text-neutral-600 font-light">
-            {results?.total || 0} results for "<span className="font-medium">{query}</span>"
-          </p>
         </div>
 
         {/* Results */}
@@ -68,7 +67,7 @@ export default function SearchResultsPage() {
                 <div className="flex items-center gap-3 mb-6 pb-3 border-b border-neutral-200">
                   <Package className="w-6 h-6 text-neutral-900" />
                   <h2 className="text-2xl font-serif font-medium text-neutral-900 tracking-tight">
-                    Products
+                    {t('search.products')}
                   </h2>
                   <span className="text-sm text-neutral-500 font-light">
                     ({results.results.products.length})
@@ -118,7 +117,7 @@ export default function SearchResultsPage() {
                 <div className="flex items-center gap-3 mb-6 pb-3 border-b border-neutral-200">
                   <TrendingUp className="w-6 h-6 text-neutral-900" />
                   <h2 className="text-2xl font-serif font-medium text-neutral-900 tracking-tight">
-                    Brands
+                    {t('search.brands')}
                   </h2>
                   <span className="text-sm text-neutral-500 font-light">
                     ({results.results.brands.length})
@@ -150,7 +149,7 @@ export default function SearchResultsPage() {
                 <div className="flex items-center gap-3 mb-6 pb-3 border-b border-neutral-200">
                   <StoreIcon className="w-6 h-6 text-neutral-900" />
                   <h2 className="text-2xl font-serif font-medium text-neutral-900 tracking-tight">
-                    Stores
+                    {t('search.stores')}
                   </h2>
                   <span className="text-sm text-neutral-500 font-light">
                     ({results.results.stores.length})
@@ -199,18 +198,18 @@ export default function SearchResultsPage() {
           <div className="text-center py-16">
             <Search className="w-16 h-16 text-neutral-300 mx-auto mb-6" />
             <h2 className="text-2xl font-serif font-medium text-neutral-900 mb-2 tracking-tight">
-              No results found
+              {t('search.noResults')}
             </h2>
             <p className="text-neutral-600 font-light mb-8">
-              We couldn't find anything matching "<span className="font-medium">{query}</span>"
+              {t('search.noResultsMessage', { query: query || '' })}
             </p>
             <div className="space-y-2 text-sm text-neutral-600 font-light">
-              <p>Try:</p>
+              <p>{t('search.tryDifferent')}</p>
               <ul className="list-disc list-inside space-y-1">
-                <li>Using different keywords</li>
-                <li>Checking your spelling</li>
-                <li>Using more general terms</li>
-                <li>Browsing our categories instead</li>
+                <li>{t('search.suggestion1')}</li>
+                <li>{t('search.suggestion2')}</li>
+                <li>{t('search.suggestion3')}</li>
+                <li>{t('search.suggestion4')}</li>
               </ul>
             </div>
             <div className="mt-8">
@@ -218,7 +217,7 @@ export default function SearchResultsPage() {
                 href="/"
                 className="inline-block px-6 py-3 bg-neutral-900 text-white hover:bg-neutral-800 transition-colors text-sm uppercase tracking-wider font-medium"
               >
-                Back to Home
+                {t('search.backToHome')}
               </Link>
             </div>
           </div>
