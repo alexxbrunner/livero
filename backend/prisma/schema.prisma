@@ -15,6 +15,13 @@ enum UserRole {
   CUSTOMER
 }
 
+enum TeamRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
 enum StoreStatus {
   PENDING
   ACTIVE
@@ -45,12 +52,15 @@ model User {
   email     String   @unique
   password  String
   role      UserRole @default(STORE)
+  resetToken String?
+  resetTokenExpiry DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   store    Store?
   admin    Admin?
   customer Customer?
+  teamMemberships TeamMember[]
 }
 
 model Admin {
@@ -125,6 +135,7 @@ model Store {
   city     City      @relation(fields: [cityId], references: [id])
   products Product[]
   syncLogs SyncLog[]
+  teamMembers TeamMember[]
 
   @@index([cityId])
   @@index([slug])
@@ -192,5 +203,25 @@ model SyncLog {
   @@index([storeId])
   @@index([status])
   @@index([startedAt])
+}
+
+model TeamMember {
+  id          String    @id @default(cuid())
+  storeId     String
+  userId      String?
+  email       String
+  role        TeamRole  @default(VIEWER)
+  inviteToken String?   @unique
+  invitedAt   DateTime  @default(now())
+  acceptedAt  DateTime?
+  invitedBy   String
+  
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user  User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([storeId, email])
+  @@index([storeId])
+  @@index([email])
+  @@index([inviteToken])
 }
 

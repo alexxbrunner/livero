@@ -81,80 +81,92 @@ export default function StoreDashboardHome() {
 
   return (
     <StoreLayout storeName={store.name} storeSlug={store.slug}>
-      <div className="p-6 lg:p-8">
+      <div className="p-8 lg:p-12">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-serif font-bold text-neutral-900 mb-2">Dashboard</h1>
-          <p className="text-neutral-600">Welcome back! Here's what's happening with your store.</p>
+        <div className="mb-12">
+          <h1 className="text-5xl font-serif font-medium text-neutral-900 mb-3 tracking-tight">Dashboard</h1>
+          <p className="text-lg text-neutral-600 font-light">Welcome back! Here's what's happening with your store.</p>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Link href="/store-dashboard/products" className="card p-6 hover:shadow-lg transition-shadow">
-            <Package className="w-10 h-10 text-neutral-900 mb-4" />
-            <h3 className="font-semibold text-neutral-900 mb-2">Manage Products</h3>
-            <p className="text-sm text-neutral-600">{store._count?.products || 0} products synced</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <Link href="/store-dashboard/products" className="group bg-white border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 hover:border-neutral-300">
+            <Package className="w-12 h-12 text-neutral-900 mb-6 stroke-[1.5]" />
+            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">Manage Products</h3>
+            <p className="text-neutral-600 font-light mb-4">{store._count?.products || 0} products synced</p>
+            <span className="text-xs uppercase tracking-widest text-neutral-900 border-b border-neutral-300 pb-1 group-hover:border-neutral-900 transition-colors">
+              View Products →
+            </span>
           </Link>
           
-          <Link href="/store-dashboard/analytics" className="card p-6 hover:shadow-lg transition-shadow">
-            <TrendingUp className="w-10 h-10 text-green-600 mb-4" />
-            <h3 className="font-semibold text-neutral-900 mb-2">View Analytics</h3>
-            <p className="text-sm text-neutral-600">Detailed performance metrics</p>
+          <Link href="/store-dashboard/analytics" className="group bg-white border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 hover:border-neutral-300">
+            <TrendingUp className="w-12 h-12 text-green-600 mb-6 stroke-[1.5]" />
+            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">View Analytics</h3>
+            <p className="text-neutral-600 font-light mb-4">Detailed performance metrics</p>
+            <span className="text-xs uppercase tracking-widest text-neutral-900 border-b border-neutral-300 pb-1 group-hover:border-neutral-900 transition-colors">
+              View Analytics →
+            </span>
           </Link>
           
           <button 
             onClick={handleSync}
             disabled={syncing}
-            className="card p-6 hover:shadow-lg transition-shadow text-left disabled:opacity-50"
+            className="group bg-white border border-neutral-200 p-8 hover:shadow-lg transition-all duration-300 text-left disabled:opacity-50 hover:border-neutral-300"
           >
-            <RefreshCw className={`w-10 h-10 text-blue-600 mb-4 ${syncing ? 'animate-spin' : ''}`} />
-            <h3 className="font-semibold text-neutral-900 mb-2">Sync Products</h3>
-            <p className="text-sm text-neutral-600">{syncing ? 'Syncing...' : 'Update your catalog'}</p>
+            <RefreshCw className={`w-12 h-12 text-blue-600 mb-6 stroke-[1.5] ${syncing ? 'animate-spin' : ''}`} />
+            <h3 className="font-serif text-xl font-medium text-neutral-900 mb-3">Sync Products</h3>
+            <p className="text-neutral-600 font-light mb-4">{syncing ? 'Syncing...' : 'Update your catalog'}</p>
+            <span className="text-xs uppercase tracking-widest text-neutral-900 border-b border-neutral-300 pb-1 group-hover:border-neutral-900 transition-colors">
+              {syncing ? 'Syncing...' : 'Sync Now →'}
+            </span>
           </button>
         </div>
 
         {/* Stats Overview */}
         {analytics && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <StatCard
-              icon={<Eye className="w-6 h-6" />}
-              label="Views (7 days)"
-              value={analytics.traffic.views.toLocaleString()}
-              color="blue"
-            />
-            <StatCard
-              icon={<MousePointerClick className="w-6 h-6" />}
-              label="Clicks (7 days)"
-              value={analytics.traffic.clicks.toLocaleString()}
-              color="green"
-            />
-            <StatCard
-              icon={<Mail className="w-6 h-6" />}
-              label="Info Requests"
-              value={analytics.traffic.requests.toLocaleString()}
-              color="purple"
-            />
-            <StatCard
-              icon={<Target className="w-6 h-6" />}
-              label="Conversion Rate"
-              value={`${analytics.traffic.conversionRate.toFixed(1)}%`}
-              color="orange"
-            />
+          <div className="mb-12">
+            <h2 className="text-3xl font-serif font-medium text-neutral-900 mb-8 tracking-tight">Performance Overview</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <StatCard
+                icon={<Eye className="w-6 h-6" />}
+                label="Views (7 days)"
+                value={analytics.traffic.views.toLocaleString()}
+                color="blue"
+              />
+              <StatCard
+                icon={<MousePointerClick className="w-6 h-6" />}
+                label="Clicks (7 days)"
+                value={analytics.traffic.clicks.toLocaleString()}
+                color="green"
+              />
+              <StatCard
+                icon={<Mail className="w-6 h-6" />}
+                label="Info Requests"
+                value={analytics.traffic.requests.toLocaleString()}
+                color="purple"
+              />
+              <StatCard
+                icon={<Target className="w-6 h-6" />}
+                label="Conversion Rate"
+                value={`${analytics.traffic.conversionRate.toFixed(1)}%`}
+                color="orange"
+              />
+            </div>
           </div>
         )}
 
         {/* Recent Activity */}
-        <div className="card p-6 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-neutral-900">Recent Sync Activity</h2>
-            <Link href="/store-dashboard/products" className="text-sm text-neutral-600 hover:text-neutral-900">
+        <div className="bg-white border border-neutral-200 p-8 mb-8">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-serif font-medium text-neutral-900">Recent Sync Activity</h2>
+            <Link href="/store-dashboard/products" className="text-xs uppercase tracking-widest text-neutral-600 hover:text-neutral-900 border-b border-neutral-300 hover:border-neutral-900 pb-1 transition-colors">
               View all →
             </Link>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {syncLogs.map((log: any) => (
-              <div key={log.id} className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
-                <div className="flex items-center gap-3">
+              <div key={log.id} className="flex items-center justify-between p-6 bg-neutral-50 border border-neutral-100">
+                <div className="flex items-center gap-4">
                   <span className="text-2xl">
                     {log.status === 'SUCCESS' ? '✓' : log.status === 'FAILED' ? '✗' : '⏳'}
                   </span>
@@ -162,14 +174,14 @@ export default function StoreDashboardHome() {
                     <p className="font-medium text-neutral-900">
                       {log.message || 'Sync completed'}
                     </p>
-                    <p className="text-sm text-neutral-600">
+                    <p className="text-sm text-neutral-600 font-light">
                       {new Date(log.startedAt).toLocaleString()}
                       {log.itemsSynced > 0 && ` · ${log.itemsSynced} items`}
                     </p>
                   </div>
                 </div>
                 <span
-                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  className={`px-4 py-1.5 text-xs font-medium uppercase tracking-wider ${
                     log.status === 'SUCCESS'
                       ? 'bg-green-100 text-green-800'
                       : log.status === 'FAILED'
@@ -182,19 +194,19 @@ export default function StoreDashboardHome() {
               </div>
             ))}
             {syncLogs.length === 0 && (
-              <p className="text-center text-neutral-500 py-8">No sync history yet</p>
+              <p className="text-center text-neutral-500 py-12 font-light">No sync history yet</p>
             )}
           </div>
         </div>
 
         {/* Store Status */}
-        <div className="card p-6">
-          <h2 className="text-xl font-semibold text-neutral-900 mb-4">Store Status</h2>
+        <div className="bg-white border border-neutral-200 p-8">
+          <h2 className="text-2xl font-serif font-medium text-neutral-900 mb-6">Store Status</h2>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-neutral-600 mb-1">Current Status</p>
+              <p className="text-xs uppercase tracking-widest text-neutral-500 font-medium mb-2">Current Status</p>
               <span
-                className={`inline-flex px-4 py-2 rounded-full text-sm font-medium ${
+                className={`inline-flex px-4 py-2 text-xs font-medium uppercase tracking-wider ${
                   store.status === 'ACTIVE'
                     ? 'bg-green-100 text-green-800'
                     : store.status === 'PENDING'
@@ -207,7 +219,7 @@ export default function StoreDashboardHome() {
             </div>
             {store.lastSyncAt && (
               <div className="text-right">
-                <p className="text-sm text-neutral-600 mb-1">Last Sync</p>
+                <p className="text-xs uppercase tracking-widest text-neutral-500 font-medium mb-2">Last Sync</p>
                 <p className="text-sm font-medium text-neutral-900">
                   {new Date(store.lastSyncAt).toLocaleDateString()}
                 </p>
@@ -229,12 +241,12 @@ function StatCard({ icon, label, value, color }: any) {
   }
 
   return (
-    <div className="card p-6">
+    <div className="bg-white border border-neutral-200 p-6">
       <div className={`inline-flex p-3 rounded-lg ${colorClasses[color as keyof typeof colorClasses]} mb-4`}>
         {icon}
       </div>
-      <p className="text-sm text-neutral-600 mb-1">{label}</p>
-      <p className="text-3xl font-bold text-neutral-900">{value}</p>
+      <p className="text-xs uppercase tracking-widest text-neutral-500 font-medium mb-2">{label}</p>
+      <p className="text-4xl font-light text-neutral-900">{value}</p>
     </div>
   )
 }

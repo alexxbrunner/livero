@@ -34,31 +34,34 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50 flex">
+    <div className="min-h-screen bg-[#faf9f8] flex">
       {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-neutral-900 text-white">
+      <aside className="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 bg-white border-r border-neutral-200">
         {/* Logo */}
-        <div className="flex items-center h-16 px-6 border-b border-neutral-800">
+        <div className="flex items-center h-20 px-8 border-b border-neutral-100">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-              <Store className="w-5 h-5 text-neutral-900" />
+            <div className="w-10 h-10 bg-gradient-to-br from-neutral-800 to-neutral-600 rounded-lg flex items-center justify-center">
+              <Store className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-serif font-bold">LIVERO</span>
+            <div>
+              <span className="text-xl font-serif font-bold text-neutral-900 tracking-tight">LIVERO</span>
+              <p className="text-[9px] text-neutral-500 -mt-0.5 tracking-widest uppercase">Store Dashboard</p>
+            </div>
           </Link>
         </div>
 
         {/* Store Info */}
         {storeName && (
-          <div className="px-6 py-4 border-b border-neutral-800">
-            <p className="text-xs uppercase tracking-wider text-neutral-400 mb-1">Store</p>
-            <p className="font-medium text-white truncate">{storeName}</p>
+          <div className="px-8 py-6 border-b border-neutral-100">
+            <p className="text-xs uppercase tracking-widest text-neutral-400 font-medium mb-2">Your Store</p>
+            <p className="font-serif font-medium text-neutral-900 text-lg truncate">{storeName}</p>
             {storeSlug && (
               <Link 
                 href={`/store/${storeSlug}`}
                 target="_blank"
-                className="text-xs text-neutral-400 hover:text-white flex items-center gap-1 mt-2"
+                className="text-xs text-neutral-500 hover:text-neutral-900 flex items-center gap-1 mt-2 uppercase tracking-wider transition-colors"
               >
-                View storefront
+                View Storefront
                 <ExternalLink className="w-3 h-3" />
               </Link>
             )}
@@ -66,7 +69,7 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
         )}
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-6 py-8 space-y-2 overflow-y-auto">
           {navigation.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
@@ -74,13 +77,13 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3.5 rounded-lg text-sm font-medium transition-all uppercase tracking-wider ${
                   isActive
-                    ? 'bg-white text-neutral-900'
-                    : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'
+                    ? 'bg-neutral-900 text-white shadow-sm'
+                    : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
                 }`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-5 h-5 stroke-[1.5]" />
                 {item.name}
               </Link>
             )
@@ -88,16 +91,16 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
         </nav>
 
         {/* User Section */}
-        <div className="px-4 py-4 border-t border-neutral-800">
-          <div className="px-4 py-2 mb-2">
-            <p className="text-xs text-neutral-400">Signed in as</p>
-            <p className="text-sm font-medium text-white truncate">{user?.email}</p>
+        <div className="px-6 py-6 border-t border-neutral-100">
+          <div className="px-4 py-3 mb-3 bg-neutral-50 rounded-lg">
+            <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-medium mb-1">Signed in as</p>
+            <p className="text-sm font-medium text-neutral-900 truncate">{user?.email}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors w-full"
+            className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-all w-full uppercase tracking-wider"
           >
-            <LogOut className="w-5 h-5" />
+            <LogOut className="w-5 h-5 stroke-[1.5]" />
             Sign Out
           </button>
         </div>
@@ -121,15 +124,15 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-neutral-900 text-white pt-16">
+        <div className="lg:hidden fixed inset-0 z-40 bg-white pt-16">
           <div className="flex flex-col h-full">
             {storeName && (
-              <div className="px-6 py-4 border-b border-neutral-800">
-                <p className="text-xs uppercase tracking-wider text-neutral-400 mb-1">Store</p>
-                <p className="font-medium text-white">{storeName}</p>
+              <div className="px-6 py-4 border-b border-neutral-100">
+                <p className="text-xs uppercase tracking-widest text-neutral-400 font-medium mb-1">Your Store</p>
+                <p className="font-serif font-medium text-neutral-900">{storeName}</p>
               </div>
             )}
-            <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+            <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
               {navigation.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href
@@ -138,10 +141,10 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all uppercase tracking-wider ${
                       isActive
-                        ? 'bg-white text-neutral-900'
-                        : 'text-neutral-300 hover:bg-neutral-800 hover:text-white'
+                        ? 'bg-neutral-900 text-white'
+                        : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -150,13 +153,13 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
                 )
               })}
             </nav>
-            <div className="px-4 py-4 border-t border-neutral-800">
+            <div className="px-4 py-4 border-t border-neutral-100">
               <button
                 onClick={() => {
                   handleLogout()
                   setMobileMenuOpen(false)
                 }}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-neutral-300 hover:bg-neutral-800 hover:text-white transition-colors w-full"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-all w-full uppercase tracking-wider"
               >
                 <LogOut className="w-5 h-5" />
                 Sign Out
@@ -167,7 +170,7 @@ export default function StoreLayout({ children, storeName, storeSlug }: StoreLay
       )}
 
       {/* Main Content */}
-      <main className="flex-1 lg:pl-64">
+      <main className="flex-1 lg:pl-72">
         <div className="lg:pt-0 pt-16">
           {children}
         </div>
