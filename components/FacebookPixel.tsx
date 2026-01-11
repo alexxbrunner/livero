@@ -1,12 +1,12 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
 
-export default function FacebookPixel() {
+function PixelTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -19,6 +19,10 @@ export default function FacebookPixel() {
     }
   }, [pathname, searchParams]);
 
+  return null;
+}
+
+export default function FacebookPixel() {
   if (!FB_PIXEL_ID) {
     return null;
   }
@@ -52,6 +56,9 @@ export default function FacebookPixel() {
           alt=""
         />
       </noscript>
+      <Suspense fallback={null}>
+        <PixelTracker />
+      </Suspense>
     </>
   );
 }
