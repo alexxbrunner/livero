@@ -48,76 +48,137 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen flex">
+      {/* Left Side - Image */}
+      <div className="hidden lg:block lg:w-1/2 relative bg-neutral-900">
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
+        <div className="relative h-full flex flex-col justify-between p-12">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2">
-            <Store className="w-10 h-10 text-primary-600" />
-            <span className="text-3xl font-serif font-bold text-gray-900">Livero</span>
+          <Link href="/" className="inline-block">
+            <h1 className="text-3xl font-serif font-medium text-white tracking-tight">Livero</h1>
           </Link>
-          <p className="mt-2 text-gray-600">Create your account</p>
+
+          {/* Content */}
+          <div className="text-white">
+            <h2 className="text-5xl font-serif font-medium mb-6 tracking-tight leading-tight">
+              Join the Local<br />Commerce Network
+            </h2>
+            <p className="text-xl text-neutral-300 font-light max-w-md">
+              Connect with customers, grow your business, and become part of a thriving city marketplace.
+            </p>
+            
+            {/* Features */}
+            <div className="mt-12 space-y-4">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 border border-white flex items-center justify-center flex-shrink-0 mt-1">
+                  <Store className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm uppercase tracking-wider font-medium mb-1">For Stores</h3>
+                  <p className="text-neutral-400 text-sm font-light">Reach local customers and manage your online presence</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 border border-white flex items-center justify-center flex-shrink-0 mt-1">
+                  <Heart className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-sm uppercase tracking-wider font-medium mb-1">For Customers</h3>
+                  <p className="text-neutral-400 text-sm font-light">Discover and save your favorite local products</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Decorative Image/Pattern */}
+          <div className="absolute bottom-0 right-0 w-2/3 h-2/3 opacity-10">
+            <div className="grid grid-cols-3 gap-4 h-full">
+              {[...Array(9)].map((_, i) => (
+                <div key={i} className="border border-white" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="flex-1 flex items-center justify-center p-8 bg-white">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center mb-8">
+            <Link href="/">
+              <h1 className="text-3xl font-serif font-medium text-neutral-900 tracking-tight">Livero</h1>
+            </Link>
+          </div>
+
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-serif font-medium text-neutral-900 mb-2 tracking-tight">
+              Create Account
+            </h1>
+            <p className="text-neutral-600 font-light">
+              Choose your account type and get started
+            </p>
         </div>
 
         {/* Register Form */}
-        <div className="card p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs uppercase tracking-wider font-medium text-neutral-900 mb-4">
                 Account Type
               </label>
               <div className="grid grid-cols-3 gap-3">
                 <button
                   type="button"
                   onClick={() => setRole('CUSTOMER')}
-                  className={`p-3 rounded-lg border-2 transition-colors ${
+                  className={`p-4 border-2 transition-all ${
                     role === 'CUSTOMER'
-                      ? 'border-primary-600 bg-primary-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-neutral-900 bg-neutral-50'
+                      : 'border-neutral-200 hover:border-neutral-400'
                   }`}
                 >
-                  <Heart className="w-5 h-5 mx-auto mb-1" />
-                  <span className="block text-xs font-medium">Customer</span>
+                  <Heart className="w-5 h-5 mx-auto mb-2 stroke-[1.5]" />
+                  <span className="block text-xs uppercase tracking-wider font-medium">Customer</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('STORE')}
-                  className={`p-3 rounded-lg border-2 transition-colors ${
+                  className={`p-4 border-2 transition-all ${
                     role === 'STORE'
-                      ? 'border-primary-600 bg-primary-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-neutral-900 bg-neutral-50'
+                      : 'border-neutral-200 hover:border-neutral-400'
                   }`}
                 >
-                  <Store className="w-5 h-5 mx-auto mb-1" />
-                  <span className="block text-xs font-medium">Store</span>
+                  <Store className="w-5 h-5 mx-auto mb-2 stroke-[1.5]" />
+                  <span className="block text-xs uppercase tracking-wider font-medium">Store</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole('ADMIN')}
-                  className={`p-3 rounded-lg border-2 transition-colors ${
+                  className={`p-4 border-2 transition-all ${
                     role === 'ADMIN'
-                      ? 'border-primary-600 bg-primary-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-neutral-900 bg-neutral-50'
+                      : 'border-neutral-200 hover:border-neutral-400'
                   }`}
                 >
-                  <User className="w-5 h-5 mx-auto mb-1" />
-                  <span className="block text-xs font-medium">Admin</span>
+                  <User className="w-5 h-5 mx-auto mb-2 stroke-[1.5]" />
+                  <span className="block text-xs uppercase tracking-wider font-medium">Admin</span>
                 </button>
               </div>
             </div>
 
             {role === 'CUSTOMER' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xs uppercase tracking-wider font-medium text-neutral-900 mb-3">
                   Name (Optional)
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="input pl-10"
+                    className="w-full pl-12 pr-4 py-4 border border-neutral-300 focus:border-neutral-900 focus:outline-none transition-colors font-light"
                     placeholder="Your name"
                   />
                 </div>
@@ -125,16 +186,16 @@ export default function RegisterPage() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs uppercase tracking-wider font-medium text-neutral-900 mb-3">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="input pl-10"
+                  className="w-full pl-12 pr-4 py-4 border border-neutral-300 focus:border-neutral-900 focus:outline-none transition-colors font-light"
                   placeholder="you@example.com"
                   required
                 />
@@ -142,37 +203,38 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-xs uppercase tracking-wider font-medium text-neutral-900 mb-3">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="input pl-10"
+                  className="w-full pl-12 pr-4 py-4 border border-neutral-300 focus:border-neutral-900 focus:outline-none transition-colors font-light"
                   placeholder="••••••••"
                   required
                   minLength={6}
                 />
               </div>
-              <p className="mt-1 text-xs text-gray-500">Minimum 6 characters</p>
+              <p className="mt-2 text-xs text-neutral-500 font-light">Minimum 6 characters</p>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm uppercase tracking-wider font-medium"
             >
               {loading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
 
+          {/* Sign In Link */}
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-neutral-600 font-light">
               Already have an account?{' '}
-              <Link href="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+              <Link href="/login" className="text-neutral-900 font-medium hover:underline">
                 Sign in
               </Link>
             </p>

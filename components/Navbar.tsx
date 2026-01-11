@@ -2,9 +2,12 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Store, Search, User, Heart, ShoppingBag, Menu, X, ChevronDown, LogOut } from 'lucide-react'
+import { Store, User, Heart, ShoppingBag, Menu, X, ChevronDown, LogOut } from 'lucide-react'
 import { categories } from '@/lib/categories'
 import { useAuthStore } from '@/store/authStore'
+import SearchBar from './SearchBar'
+import LanguageSelector from './LanguageSelector'
+import { useI18n } from '@/contexts/I18nContext'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -12,6 +15,7 @@ export default function Navbar() {
   const [showCities, setShowCities] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
   const { user, logout } = useAuthStore()
+  const { t } = useI18n()
 
   const handleLogout = () => {
     logout()
@@ -24,13 +28,13 @@ export default function Navbar() {
       <div className="bg-neutral-900 text-neutral-100 text-xs py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <div className="flex items-center gap-6">
-            <span>Free shipping on orders over €500</span>
+            <span>{t('nav.shipping')}</span>
             <span className="hidden md:inline">·</span>
-            <span className="hidden md:inline">30-day return policy</span>
+            <span className="hidden md:inline">{t('nav.returns')}</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/about" className="hover:text-white transition-colors">About</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
+            <Link href="/about" className="hover:text-white transition-colors">{t('nav.about')}</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">{t('nav.contact')}</Link>
           </div>
         </div>
       </div>
@@ -44,8 +48,8 @@ export default function Navbar() {
               <Store className="w-6 h-6 text-white" />
             </div>
             <div>
-              <span className="text-2xl font-serif font-bold text-neutral-900 tracking-tight">LIVERO</span>
-              <p className="text-[10px] text-neutral-500 -mt-1 tracking-widest uppercase">Premium Interiors</p>
+              <span className="text-2xl font-serif font-bold text-neutral-900 tracking-tight">{t('nav.brand')}</span>
+              <p className="text-[10px] text-neutral-500 -mt-1 tracking-widest uppercase">{t('nav.tagline')}</p>
             </div>
           </Link>
 
@@ -58,7 +62,7 @@ export default function Navbar() {
               onMouseLeave={() => setShowCategories(false)}
             >
               <button className="flex items-center space-x-1 text-neutral-700 hover:text-neutral-900 font-medium transition-colors py-2">
-                <span>Categories</span>
+                <span>{t('nav.categories')}</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
               
@@ -142,11 +146,14 @@ export default function Navbar() {
           </nav>
 
           {/* Right side actions */}
-          <div className="flex items-center space-x-6">
-            {/* Search */}
-            <button className="hidden md:flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors">
-              <Search className="w-5 h-5" />
-            </button>
+          <div className="flex items-center space-x-4">
+            {/* Search Bar - Desktop */}
+            <div className="hidden lg:block flex-1 max-w-xl">
+              <SearchBar />
+            </div>
+
+            {/* Language Selector */}
+            <LanguageSelector />
 
             {/* User Menu */}
             {user ? (
@@ -157,8 +164,8 @@ export default function Navbar() {
               >
                 <button className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors">
                   <User className="w-5 h-5" />
-                </button>
-                
+            </button>
+
                 {showUserMenu && (
                   <div className="absolute right-0 top-full pt-2">
                     <div className="w-64 bg-white border border-neutral-200 rounded-lg shadow-2xl p-4">
@@ -205,15 +212,15 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <Link href="/login" className="hidden md:flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors">
-                <User className="w-5 h-5" />
-              </Link>
+            <Link href="/login" className="hidden md:flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors">
+              <User className="w-5 h-5" />
+            </Link>
             )}
 
             {/* Favorites */}
             {user?.role === 'CUSTOMER' && (
               <Link href="/favorites" className="hidden md:flex items-center gap-2 text-neutral-600 hover:text-red-500 transition-colors">
-                <Heart className="w-5 h-5" />
+              <Heart className="w-5 h-5" />
               </Link>
             )}
 
@@ -233,6 +240,11 @@ export default function Navbar() {
         <div className="lg:hidden border-t border-neutral-200 bg-white max-h-[calc(100vh-120px)] overflow-y-auto">
           <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
             
+            {/* Mobile Search */}
+            <div className="mb-6">
+              <SearchBar />
+            </div>
+
             {/* Featured Categories Section */}
             <div>
               <h3 className="text-xs uppercase tracking-widest text-neutral-500 font-semibold mb-3 px-2">
@@ -266,7 +278,7 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 View All Categories →
-              </Link>
+            </Link>
             </div>
 
             {/* Cities Section */}
@@ -291,7 +303,7 @@ export default function Navbar() {
                   <p className="text-sm text-neutral-500">Austria</p>
                   <p className="text-xs text-neutral-400 mt-1">3 stores · 27 products</p>
                 </div>
-              </Link>
+            </Link>
             </div>
 
             {/* Navigation Links */}
@@ -302,15 +314,15 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Store className="w-5 h-5" />
-                Brands
-              </Link>
+              Brands
+            </Link>
               <Link 
                 href="/about" 
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-50 transition-colors text-neutral-900 font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
-                About
-              </Link>
+              About
+            </Link>
             </div>
 
             {/* User Section */}
@@ -367,8 +379,8 @@ export default function Navbar() {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <User className="w-5 h-5" />
-                    Login
-                  </Link>
+              Login
+            </Link>
                   <Link 
                     href="/register" 
                     className="flex items-center gap-3 p-3 rounded-lg bg-neutral-900 hover:bg-neutral-800 transition-colors text-white font-medium mt-2"

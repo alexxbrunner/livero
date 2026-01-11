@@ -8,8 +8,10 @@ import FavoriteButton from '@/components/FavoriteButton'
 import api from '@/lib/api'
 import toast from 'react-hot-toast'
 import { Store, ArrowLeft, ExternalLink, Phone, Mail, Award, Tag, ChevronDown, ChevronUp } from 'lucide-react'
+import { useI18n } from '@/contexts/I18nContext'
 
 export default function ProductPage() {
+  const { t } = useI18n()
   const params = useParams()
   const router = useRouter()
   const productId = params?.productId as string
@@ -49,7 +51,7 @@ export default function ProductPage() {
       }
     } catch (error) {
       console.error('Error fetching product:', error)
-      toast.error('Product not found')
+      toast.error(t('product.productNotFound'))
       router.push('/')
     } finally {
       setLoading(false)
@@ -72,10 +74,10 @@ export default function ProductPage() {
       await api.post(`/products/${productId}/request`, {
         metadata: { timestamp: new Date().toISOString() },
       })
-      toast.success('Request sent! The store will contact you soon.')
+      toast.success(t('product.requestSent'))
     } catch (error) {
       console.error('Error tracking request:', error)
-      toast.error('Failed to send request')
+      toast.error(t('product.requestError'))
     }
   }
 
@@ -92,7 +94,7 @@ export default function ProductPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="w-16 h-16 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-neutral-600">Loading product...</p>
+            <p className="text-neutral-600">{t('product.loading')}</p>
           </div>
         </div>
       </DefaultLayout>
@@ -115,7 +117,7 @@ export default function ProductPage() {
   
   // Extract brand from product metadata or use store name
   const brandName = product.brand || product.store.name
-  const brandDescription = product.brandDescription || `Premium furniture brand offering exceptional quality and timeless design.`
+  const brandDescription = product.brandDescription || t('product.defaultBrandDescription')
 
   return (
     <DefaultLayout>
@@ -123,7 +125,7 @@ export default function ProductPage() {
       <div className="bg-white border-b border-neutral-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center text-xs uppercase tracking-widest text-neutral-500">
-            <Link href="/" className="hover:text-neutral-900 transition-colors">Home</Link>
+            <Link href="/" className="hover:text-neutral-900 transition-colors">{t('product.home')}</Link>
             <span className="mx-4 text-neutral-300">/</span>
             <Link href={`/city/${product.city.slug}`} className="hover:text-neutral-900 transition-colors">{product.city.name}</Link>
             {product.category && (
@@ -201,17 +203,17 @@ export default function ProductPage() {
                 {/* Installment Payment Info */}
                 <div className="mb-8 p-4 bg-neutral-50 border border-neutral-100 rounded-sm">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-xs uppercase tracking-wider font-medium text-neutral-900">Flexible Payments</span>
-                    <span className="px-2 py-0.5 bg-neutral-900 text-white text-[10px] uppercase tracking-widest">New</span>
+                    <span className="text-xs uppercase tracking-wider font-medium text-neutral-900">{t('product.flexiblePayments')}</span>
+                    <span className="px-2 py-0.5 bg-neutral-900 text-white text-[10px] uppercase tracking-widest">{t('product.new')}</span>
                   </div>
                   <p className="text-sm text-neutral-600 font-light">
-                    Pay in 3 interest-free installments of <span className="font-medium text-neutral-900">€{(product.price / 3).toFixed(2)}</span> with Klarna or PayPal.
+                    {t('product.installmentText', { amount: `€${(product.price / 3).toFixed(2)}` })}
                   </p>
                 </div>
 
                 <div className="prose prose-neutral text-neutral-600 font-light leading-relaxed mb-8">
                   <p className="line-clamp-4 hover:line-clamp-none transition-all duration-300">
-                    {product.description || 'Experience the perfect blend of form and function with this exquisite piece. Meticulously crafted to enhance your living space, it represents the finest in contemporary European design.'}
+                    {product.description || t('product.defaultDescription')}
                   </p>
                 </div>
 
@@ -243,7 +245,7 @@ export default function ProductPage() {
                         href={`/store/${product.store.slug}`}
                         className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-neutral-900 hover:text-neutral-600 font-medium transition-colors group"
                       >
-                        Explore Brand
+                        {t('product.exploreBrand')}
                         <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                       </Link>
                     </div>
@@ -255,14 +257,14 @@ export default function ProductPage() {
                     onClick={handleClickToStore}
                     className="w-full bg-neutral-900 text-white hover:bg-neutral-800 py-4 px-6 text-sm uppercase tracking-widest font-medium transition-colors flex items-center justify-center gap-2"
                   >
-                    Visit Online Store
+                    {t('product.visitStore')}
                     <ExternalLink className="w-4 h-4" />
                   </button>
                   <button
                     onClick={handleRequestInfo}
                     className="w-full bg-white text-neutral-900 border border-neutral-200 hover:border-neutral-900 py-4 px-6 text-sm uppercase tracking-widest font-medium transition-colors flex items-center justify-center gap-2"
                   >
-                    Request Information
+                    {t('product.requestInfo')}
                     <Mail className="w-4 h-4" />
                   </button>
                 </div>
@@ -277,7 +279,7 @@ export default function ProductPage() {
                     className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
                   >
                     <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
-                      Product Details
+                      {t('product.productDetails')}
                     </span>
                     {expandedSections.description ? (
                       <ChevronUp className="w-5 h-5 text-neutral-600" />
@@ -288,11 +290,11 @@ export default function ProductPage() {
                   {expandedSections.description && (
                     <div className="px-5 pb-5">
                       <p className="text-sm text-neutral-600 leading-relaxed">
-                        {product.description || 'This premium piece combines exceptional craftsmanship with contemporary design. Made from high-quality materials, it offers both durability and timeless aesthetic appeal. Perfect for modern living spaces.'}
+                        {product.description || t('product.defaultProductDetails')}
                       </p>
                       {product.sku && (
                         <p className="text-xs text-neutral-500 mt-4">
-                          SKU: {product.sku}
+                          {t('product.spec.sku')}: {product.sku}
                         </p>
                       )}
                     </div>
@@ -306,7 +308,7 @@ export default function ProductPage() {
                     className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
                   >
                     <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
-                      Specifications
+                      {t('product.specifications')}
                     </span>
                     {expandedSections.specifications ? (
                       <ChevronUp className="w-5 h-5 text-neutral-600" />
@@ -318,24 +320,24 @@ export default function ProductPage() {
                     <div className="px-5 pb-5">
                       <div className="space-y-3 text-sm">
                         <div className="flex justify-between py-2 border-b border-neutral-100">
-                          <span className="text-neutral-500">Category</span>
+                          <span className="text-neutral-500">{t('product.spec.category')}</span>
                           <span className="text-neutral-900 font-medium">{product.category || 'Furniture'}</span>
                         </div>
                         <div className="flex justify-between py-2 border-b border-neutral-100">
-                          <span className="text-neutral-500">Brand</span>
+                          <span className="text-neutral-500">{t('product.spec.brand')}</span>
                           <span className="text-neutral-900 font-medium">{brandName}</span>
                         </div>
                         <div className="flex justify-between py-2 border-b border-neutral-100">
-                          <span className="text-neutral-500">Material</span>
-                          <span className="text-neutral-900 font-medium">Premium Quality</span>
+                          <span className="text-neutral-500">{t('product.spec.material')}</span>
+                          <span className="text-neutral-900 font-medium">{t('product.spec.materialValue')}</span>
                         </div>
                         <div className="flex justify-between py-2 border-b border-neutral-100">
-                          <span className="text-neutral-500">Availability</span>
-                          <span className="text-green-600 font-medium">In Stock</span>
+                          <span className="text-neutral-500">{t('product.spec.availability')}</span>
+                          <span className="text-green-600 font-medium">{t('product.spec.inStock')}</span>
                         </div>
                         <div className="flex justify-between py-2">
-                          <span className="text-neutral-500">Origin</span>
-                          <span className="text-neutral-900 font-medium">{product.city?.name || 'Europe'}</span>
+                          <span className="text-neutral-500">{t('product.spec.origin')}</span>
+                          <span className="text-neutral-900 font-medium">{product.city?.name || t('product.spec.originValue')}</span>
                         </div>
                       </div>
                     </div>
@@ -349,7 +351,7 @@ export default function ProductPage() {
                     className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
                   >
                     <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
-                      Shipping & Delivery
+                      {t('product.shippingDelivery')}
                     </span>
                     {expandedSections.shipping ? (
                       <ChevronUp className="w-5 h-5 text-neutral-600" />
@@ -361,16 +363,16 @@ export default function ProductPage() {
                     <div className="px-5 pb-5">
                       <div className="space-y-3 text-sm text-neutral-600">
                         <p>
-                          <strong className="text-neutral-900">Delivery Time:</strong> Estimated 2-4 weeks depending on your location and product availability.
+                          <strong className="text-neutral-900">{t('product.shipping.deliveryTime')}</strong> {t('product.shipping.deliveryTimeText')}
                         </p>
                         <p>
-                          <strong className="text-neutral-900">Shipping Costs:</strong> Calculated at checkout based on delivery address and item size.
+                          <strong className="text-neutral-900">{t('product.shipping.shippingCosts')}</strong> {t('product.shipping.shippingCostsText')}
                         </p>
                         <p>
-                          <strong className="text-neutral-900">White Glove Delivery:</strong> Professional delivery and installation services available upon request.
+                          <strong className="text-neutral-900">{t('product.shipping.whiteGlove')}</strong> {t('product.shipping.whiteGloveText')}
                         </p>
                         <p>
-                          <strong className="text-neutral-900">In-Store Pickup:</strong> Available at {product.store.name} in {product.city?.name}. Contact store for details.
+                          <strong className="text-neutral-900">{t('product.shipping.inStorePickup')}</strong> {t('product.shipping.inStorePickupText', { store: product.store.name, city: product.city?.name || '' })}
                         </p>
                       </div>
                     </div>
@@ -384,7 +386,7 @@ export default function ProductPage() {
                     className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
                   >
                     <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
-                      Returns & Warranty
+                      {t('product.returnsWarranty')}
                     </span>
                     {expandedSections.returns ? (
                       <ChevronUp className="w-5 h-5 text-neutral-600" />
@@ -396,16 +398,16 @@ export default function ProductPage() {
                     <div className="px-5 pb-5">
                       <div className="space-y-3 text-sm text-neutral-600">
                         <p>
-                          <strong className="text-neutral-900">Return Policy:</strong> 30-day return period for most items. Product must be unused and in original packaging.
+                          <strong className="text-neutral-900">{t('product.returns.returnPolicy')}</strong> {t('product.returns.returnPolicyText')}
                         </p>
                         <p>
-                          <strong className="text-neutral-900">Return Shipping:</strong> Contact the store to arrange return pickup. Return shipping fees may apply.
+                          <strong className="text-neutral-900">{t('product.returns.returnShipping')}</strong> {t('product.returns.returnShippingText')}
                         </p>
                         <p>
-                          <strong className="text-neutral-900">Warranty:</strong> Manufacturer warranty included. Duration varies by product—contact store for specific warranty information.
+                          <strong className="text-neutral-900">{t('product.returns.warranty')}</strong> {t('product.returns.warrantyText')}
                         </p>
                         <p>
-                          <strong className="text-neutral-900">Damage Claims:</strong> Report any shipping damage within 48 hours of delivery for full resolution.
+                          <strong className="text-neutral-900">{t('product.returns.damageClaims')}</strong> {t('product.returns.damageClaimsText')}
                         </p>
                       </div>
                     </div>
@@ -415,7 +417,7 @@ export default function ProductPage() {
 
               {/* Store Info Card */}
               <div className="bg-neutral-50 p-6 border border-neutral-100">
-                <h3 className="font-serif text-lg font-medium mb-4">Sold by {product.store.name}</h3>
+                <h3 className="font-serif text-lg font-medium mb-4">{t('product.soldBy', { store: product.store.name })}</h3>
                 <div className="flex items-start gap-4 mb-4">
                   {product.store.logoUrl ? (
                     <img
@@ -430,11 +432,11 @@ export default function ProductPage() {
                   )}
                   <div>
                     <div className="text-sm text-neutral-600 font-light leading-relaxed mb-2">
-                      {product.store.description || 'Premium furniture retailer offering a curated selection of high-quality pieces.'}
+                      {product.store.description || t('product.defaultStoreDescription')}
                     </div>
                     {product.store.city && (
                       <div className="text-xs text-neutral-500 uppercase tracking-wider">
-                        Based in {product.store.city.name}
+                        {t('product.basedIn', { city: product.store.city.name })}
                       </div>
                     )}
                   </div>
@@ -446,7 +448,7 @@ export default function ProductPage() {
                     rel="noopener noreferrer"
                     className="text-xs uppercase tracking-widest text-neutral-900 hover:text-neutral-600 border-b border-neutral-300 hover:border-neutral-600 pb-0.5 transition-colors inline-flex items-center gap-1"
                   >
-                    View Store Profile
+                    {t('product.viewStoreProfile')}
                   </a>
                 )}
               </div>
@@ -458,7 +460,7 @@ export default function ProductPage() {
         {relatedProducts.length > 0 && (
           <div className="mt-24 border-t border-neutral-100 pt-16">
             <h2 className="text-3xl font-serif font-medium text-neutral-900 mb-12 text-center">
-              You May Also Like
+              {t('product.youMayAlsoLike')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {relatedProducts.map((related) => (

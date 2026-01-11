@@ -1,8 +1,11 @@
+'use client'
+
 import Link from 'next/link'
 import DefaultLayout from '@/components/DefaultLayout'
 import BestsellersCarousel from '@/components/BestsellersCarousel'
 import { categories } from '@/lib/categories'
 import { Store, TrendingUp, Users, Heart, ArrowRight, MapPin } from 'lucide-react'
+import { useI18n } from '@/contexts/I18nContext'
 
 const cities = [
   {
@@ -11,8 +14,7 @@ const cities = [
     country: 'Austria',
     stores: 3,
     products: 27,
-    image: 'https://images.unsplash.com/photo-1609856878074-cf31e21ccb6b?w=800',
-    description: 'Imperial elegance meets modern design'
+    image: 'https://images.unsplash.com/photo-1609856878074-cf31e21ccb6b?w=800'
   },
   {
     name: 'Munich',
@@ -21,7 +23,6 @@ const cities = [
     stores: 0,
     products: 0,
     image: 'https://images.unsplash.com/photo-1595867818082-083862f3d630?w=800',
-    description: 'Bavarian craftsmanship and contemporary style',
     comingSoon: true
   },
   {
@@ -31,7 +32,6 @@ const cities = [
     stores: 0,
     products: 0,
     image: 'https://images.unsplash.com/photo-1560969184-10fe8719e047?w=800',
-    description: 'Urban chic and avant-garde interiors',
     comingSoon: true
   },
   {
@@ -41,7 +41,6 @@ const cities = [
     stores: 0,
     products: 0,
     image: 'https://images.unsplash.com/photo-1598258128610-ae1b6aef9f6a?w=800',
-    description: 'Eastern European charm and modern luxury',
     comingSoon: true
   },
   {
@@ -51,7 +50,6 @@ const cities = [
     stores: 0,
     products: 0,
     image: 'https://images.unsplash.com/photo-1598258128610-ae1b6aef9f6a?w=800',
-    description: 'Historic beauty meets contemporary design',
     comingSoon: true
   },
   {
@@ -61,12 +59,13 @@ const cities = [
     stores: 0,
     products: 0,
     image: 'https://images.unsplash.com/photo-1568948856944-e64bf1acc5cd?w=800',
-    description: 'Swiss precision and timeless elegance',
     comingSoon: true
   },
 ]
 
 export default function HomePage() {
+  const { t } = useI18n()
+  
   return (
     <DefaultLayout>
       {/* Hero Section - Luxury Style */}
@@ -82,20 +81,20 @@ export default function HomePage() {
         
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <p className="text-sm md:text-base uppercase tracking-[0.3em] text-white/90 mb-8 font-medium">
-            The World of Premium Interiors
+            {t('home.hero.tagline')}
           </p>
           <h1 className="text-6xl md:text-8xl font-serif font-medium mb-10 leading-[1.1] tracking-tight">
-            Curated Luxury<br />for Your Home
+            {t('home.hero.title')}<br />{t('home.hero.titleLine2')}
           </h1>
           <p className="text-xl md:text-2xl mb-12 text-white/90 font-light max-w-2xl mx-auto leading-relaxed">
-            Discover exquisite furniture from Europe's finest interior boutiques.
+            {t('home.hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link href="/city/vienna" className="bg-white text-neutral-900 hover:bg-neutral-100 px-10 py-4 text-sm uppercase tracking-widest font-medium transition-all duration-300 min-w-[200px]">
-              Explore Vienna
+              {t('home.hero.exploreVienna')}
             </Link>
             <Link href="/categories" className="bg-transparent border border-white text-white hover:bg-white/10 px-10 py-4 text-sm uppercase tracking-widest font-medium transition-all duration-300 min-w-[200px]">
-              Browse Categories
+              {t('home.hero.browseCategories')}
             </Link>
           </div>
         </div>
@@ -105,28 +104,28 @@ export default function HomePage() {
       <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">Our Cities</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">{t('home.cities.title')}</h2>
             <div className="w-24 h-1 bg-neutral-900 mx-auto mb-6"></div>
             <p className="text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed font-light">
-              Bringing together the finest furniture stores in Europe's most beautiful cities.
+              {t('home.cities.subtitle')}
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {cities.map((city) => (
-              <CityCard key={city.slug} city={city} />
+              <CityCard key={city.slug} city={city} t={t} />
             ))}
           </div>
 
           <div className="mt-24 text-center p-16 bg-neutral-50 border border-neutral-100">
             <h3 className="text-3xl font-serif font-medium text-neutral-900 mb-4">
-              Don't See Your City?
+              {t('home.cities.dontSee')}
             </h3>
             <p className="text-neutral-600 mb-8 max-w-2xl mx-auto font-light">
-              We're expanding to new cities every month. Request your city and be the first to know when we launch.
+              {t('home.cities.expanding')}
             </p>
             <Link href="/request-city" className="inline-flex items-center text-neutral-900 border-b border-neutral-900 pb-1 hover:text-neutral-600 hover:border-neutral-600 transition-colors uppercase tracking-widest text-sm font-medium">
-              Request Your City
+              {t('home.cities.requestCity')}
             </Link>
           </div>
         </div>
@@ -136,10 +135,10 @@ export default function HomePage() {
       <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">Bestsellers</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">{t('home.bestsellers.title')}</h2>
             <div className="w-24 h-1 bg-neutral-900 mx-auto mb-6"></div>
             <p className="text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed font-light">
-              Discover the most loved pieces from our curated collection.
+              {t('home.bestsellers.subtitle')}
             </p>
           </div>
           
@@ -151,10 +150,10 @@ export default function HomePage() {
       <section className="py-32 bg-[#faf9f8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">Shop by Category</h2>
+            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">{t('home.categories.title')}</h2>
             <div className="w-24 h-1 bg-neutral-900 mx-auto mb-6"></div>
             <p className="text-lg text-neutral-600 max-w-2xl mx-auto font-light">
-              Handpicked collections from Europe's most prestigious furniture stores.
+              {t('home.categories.subtitle')}
             </p>
           </div>
           
@@ -181,7 +180,7 @@ export default function HomePage() {
           
           <div className="text-center mt-16">
             <Link href="/categories" className="btn-primary inline-flex items-center">
-              View All Categories
+              {t('home.categories.viewAll')}
             </Link>
           </div>
         </div>
@@ -191,7 +190,7 @@ export default function HomePage() {
       <section className="py-32 bg-white text-neutral-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-serif font-medium mb-6">The Livero Standard</h2>
+            <h2 className="text-4xl font-serif font-medium mb-6">{t('home.whyChoose.title')}</h2>
             <div className="w-24 h-1 bg-neutral-900 mx-auto mb-6"></div>
           </div>
           
@@ -200,27 +199,27 @@ export default function HomePage() {
               <div className="inline-flex items-center justify-center w-20 h-20 mb-8 border border-neutral-200 rounded-full group-hover:border-neutral-900 transition-colors duration-300">
                 <Store className="w-8 h-8 stroke-1" />
               </div>
-              <h3 className="text-xl font-serif font-medium mb-4">Curated Selection</h3>
+              <h3 className="text-xl font-serif font-medium mb-4">{t('home.whyChoose.curatedSelection.title')}</h3>
               <p className="text-neutral-600 leading-relaxed font-light">
-                Only the finest stores and artisans, handpicked for their exceptional quality and design philosophy.
+                {t('home.whyChoose.curatedSelection.description')}
               </p>
             </div>
             <div className="text-center group">
               <div className="inline-flex items-center justify-center w-20 h-20 mb-8 border border-neutral-200 rounded-full group-hover:border-neutral-900 transition-colors duration-300">
                 <Heart className="w-8 h-8 stroke-1" />
               </div>
-              <h3 className="text-xl font-serif font-medium mb-4">Local Excellence</h3>
+              <h3 className="text-xl font-serif font-medium mb-4">{t('home.whyChoose.localExcellence.title')}</h3>
               <p className="text-neutral-600 leading-relaxed font-light">
-                Support your city's finest furniture makers while discovering pieces you'll cherish for years.
+                {t('home.whyChoose.localExcellence.description')}
               </p>
             </div>
             <div className="text-center group">
               <div className="inline-flex items-center justify-center w-20 h-20 mb-8 border border-neutral-200 rounded-full group-hover:border-neutral-900 transition-colors duration-300">
                 <Users className="w-8 h-8 stroke-1" />
               </div>
-              <h3 className="text-xl font-serif font-medium mb-4">Expert Service</h3>
+              <h3 className="text-xl font-serif font-medium mb-4">{t('home.whyChoose.expertService.title')}</h3>
               <p className="text-neutral-600 leading-relaxed font-light">
-                Connect directly with store owners who bring decades of expertise and passion to every piece.
+                {t('home.whyChoose.expertService.description')}
               </p>
             </div>
           </div>
@@ -231,13 +230,13 @@ export default function HomePage() {
       <section className="py-32 bg-neutral-900 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-serif font-medium mb-8">
-            Partner with Livero
+            {t('home.partnership.title')}
           </h2>
           <p className="text-xl text-neutral-300 mb-12 leading-relaxed font-light">
-            Join our exclusive network of premium retailers and reach discerning customers who appreciate exceptional quality.
+            {t('home.partnership.subtitle')}
           </p>
           <Link href="/register" className="bg-white text-neutral-900 hover:bg-neutral-100 px-10 py-4 text-sm uppercase tracking-widest font-medium transition-all duration-300">
-            Apply for Partnership
+            {t('home.partnership.cta')}
           </Link>
         </div>
       </section>
@@ -245,7 +244,10 @@ export default function HomePage() {
   )
 }
 
-function CityCard({ city }: { city: any }) {
+function CityCard({ city, t }: { city: any; t: any }) {
+  const descriptionKey = `home.cities.cityDescriptions.${city.slug}` as any
+  const description = t(descriptionKey)
+  
   return (
     <Link 
       href={city.comingSoon ? '#' : `/city/${city.slug}`} 
@@ -262,7 +264,7 @@ function CityCard({ city }: { city: any }) {
         {city.comingSoon && (
           <div className="absolute top-4 right-4">
             <span className="bg-white/90 backdrop-blur-sm text-neutral-900 text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wider">
-              Coming Soon
+              {t('home.cities.comingSoon')}
             </span>
           </div>
         )}
@@ -273,17 +275,17 @@ function CityCard({ city }: { city: any }) {
             <span className="text-sm uppercase tracking-wider">{city.country}</span>
           </div>
           <h3 className="text-3xl font-serif font-semibold mb-2">{city.name}</h3>
-          <p className="text-sm text-neutral-200 mb-3">{city.description}</p>
+          <p className="text-sm text-neutral-200 mb-3">{description}</p>
           
           {!city.comingSoon && (
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1">
                 <Store className="w-4 h-4" />
-                <span>{city.stores} stores</span>
+                <span>{t('home.cities.stores', { count: city.stores })}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Package className="w-4 h-4" />
-                <span>{city.products} products</span>
+                <span>{t('home.cities.products', { count: city.products })}</span>
               </div>
             </div>
           )}
@@ -293,7 +295,7 @@ function CityCard({ city }: { city: any }) {
       {!city.comingSoon && (
         <div className="p-6 bg-white">
           <div className="flex items-center text-neutral-900 font-medium group-hover:text-neutral-700">
-            <span className="uppercase tracking-wider text-sm">Explore {city.name}</span>
+            <span className="uppercase tracking-wider text-sm">{t('home.cities.explore', { city: city.name })}</span>
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>
@@ -302,7 +304,7 @@ function CityCard({ city }: { city: any }) {
       {city.comingSoon && (
         <div className="p-6 bg-neutral-50">
           <p className="text-sm text-neutral-600">
-            Be the first to know when we launch in {city.name}
+            {t('home.cities.beFirstToKnow', { city: city.name })}
           </p>
         </div>
       )}

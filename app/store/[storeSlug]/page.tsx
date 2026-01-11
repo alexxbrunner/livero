@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import DefaultLayout from '@/components/DefaultLayout'
+import FavoriteButton from '@/components/FavoriteButton'
 import api from '@/lib/api'
 import { Store, ArrowLeft, ExternalLink, MapPin, Search, SlidersHorizontal, Package } from 'lucide-react'
 import { priceRanges } from '@/lib/categories'
@@ -287,23 +288,33 @@ function ProductCard({ product }: { product: any }) {
   const imageUrl = product.images?.urls?.[0] || 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800'
 
   return (
-    <Link href={`/product/${product.id}`} className="group">
-      <div className="aspect-[3/4] relative overflow-hidden bg-neutral-100 mb-4">
-        <img
-          src={imageUrl}
-          alt={product.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
-        {!product.availability && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <span className="text-white font-medium text-sm uppercase tracking-wider">Sold Out</span>
+    <div className="group">
+      <Link href={`/product/${product.id}`} className="block relative">
+        <div className="aspect-[3/4] relative overflow-hidden bg-neutral-100 mb-4">
+          <img
+            src={imageUrl}
+            alt={product.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          {!product.availability && (
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+              <span className="text-white font-medium text-sm uppercase tracking-wider">Sold Out</span>
+            </div>
+          )}
+          {/* Favorite Button */}
+          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <FavoriteButton productId={product.id} size="sm" />
           </div>
-        )}
-      </div>
+        </div>
+      </Link>
+      
       <div>
-        <h3 className="font-medium text-neutral-900 mb-2 line-clamp-2 group-hover:text-neutral-600 transition-colors">
-          {product.title}
-        </h3>
+        <Link href={`/product/${product.id}`}>
+          <h3 className="font-medium text-neutral-900 mb-2 line-clamp-2 group-hover:text-neutral-600 transition-colors">
+            {product.title}
+          </h3>
+        </Link>
+        
         <div className="flex justify-between items-baseline">
           <span className="text-lg font-semibold text-neutral-900">
             €{product.price}
@@ -313,7 +324,7 @@ function ProductCard({ product }: { product: any }) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 

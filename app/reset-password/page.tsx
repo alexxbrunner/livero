@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import DefaultLayout from '@/components/DefaultLayout';
 import api from '@/lib/api';
+import { Lock, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -71,135 +71,228 @@ export default function ResetPasswordPage() {
 
   if (loading) {
     return (
-      <DefaultLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <p className="text-gray-500">Verifying reset link...</p>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-neutral-500 font-light">Verifying reset link...</p>
         </div>
-      </DefaultLayout>
+      </div>
     );
   }
 
   if (success) {
     return (
-      <DefaultLayout>
-        <div className="max-w-md mx-auto px-4 py-12">
-          <div className="border border-gray-200 p-8 bg-white text-center">
-            <div className="mb-6">
-              <svg
-                className="mx-auto h-12 w-12 text-green-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+      <div className="min-h-screen flex">
+        {/* Left Side - Image */}
+        <div className="hidden lg:block lg:w-1/2 relative bg-neutral-900">
+          <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
+          <div className="relative h-full flex flex-col justify-between p-12">
+            <Link href="/" className="inline-block">
+              <h1 className="text-3xl font-serif font-medium text-white tracking-tight">Livero</h1>
+            </Link>
+
+            <div className="text-white">
+              <h2 className="text-5xl font-serif font-medium mb-6 tracking-tight leading-tight">
+                Password<br />Reset Complete
+              </h2>
+              <p className="text-xl text-neutral-300 font-light max-w-md">
+                Your password has been successfully reset. You can now log in with your new credentials.
+              </p>
+            </div>
+
+            <div className="absolute bottom-0 right-0 w-2/3 h-2/3 opacity-10">
+              <div className="grid grid-cols-3 gap-4 h-full">
+                {[...Array(9)].map((_, i) => (
+                  <div key={i} className="border border-white" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Success Message */}
+        <div className="flex-1 flex items-center justify-center p-8 bg-white">
+          <div className="w-full max-w-md text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 mb-8">
+              <CheckCircle className="w-10 h-10 text-green-600 stroke-[1.5]" />
             </div>
             
-            <h1 className="text-2xl font-light tracking-wide text-gray-900 mb-4">
-              PASSWORD RESET SUCCESSFUL
+            <h1 className="text-3xl font-serif font-medium text-neutral-900 mb-4 tracking-tight">
+              Password Reset Successful
             </h1>
             
-            <p className="text-gray-600 mb-8">
+            <p className="text-neutral-600 font-light mb-8">
               Your password has been reset successfully. You can now log in with your new password.
             </p>
             
             <Link
               href="/login"
-              className="inline-block px-6 py-3 bg-gray-900 text-white uppercase text-xs tracking-wider hover:bg-gray-800 transition-colors"
+              className="inline-block px-8 py-4 bg-neutral-900 text-white hover:bg-neutral-800 transition-all text-sm uppercase tracking-wider font-medium"
             >
               Go to Login
             </Link>
           </div>
         </div>
-      </DefaultLayout>
+      </div>
     );
   }
 
   if (error && !email) {
     return (
-      <DefaultLayout>
-        <div className="max-w-md mx-auto px-4 py-12">
-          <div className="border border-gray-200 p-8 bg-white text-center">
-            <h1 className="text-2xl font-light tracking-wide text-gray-900 mb-4">
-              INVALID RESET LINK
+      <div className="min-h-screen flex">
+        {/* Left Side - Image */}
+        <div className="hidden lg:block lg:w-1/2 relative bg-neutral-900">
+          <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
+          <div className="relative h-full flex flex-col justify-between p-12">
+            <Link href="/" className="inline-block">
+              <h1 className="text-3xl font-serif font-medium text-white tracking-tight">Livero</h1>
+            </Link>
+
+            <div className="text-white">
+              <h2 className="text-5xl font-serif font-medium mb-6 tracking-tight leading-tight">
+                Invalid<br />Reset Link
+              </h2>
+              <p className="text-xl text-neutral-300 font-light max-w-md">
+                This password reset link is invalid or has expired. Please request a new one.
+              </p>
+            </div>
+
+            <div className="absolute bottom-0 right-0 w-2/3 h-2/3 opacity-10">
+              <div className="grid grid-cols-3 gap-4 h-full">
+                {[...Array(9)].map((_, i) => (
+                  <div key={i} className="border border-white" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Error Message */}
+        <div className="flex-1 flex items-center justify-center p-8 bg-white">
+          <div className="w-full max-w-md text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-red-100 mb-8">
+              <AlertCircle className="w-10 h-10 text-red-600 stroke-[1.5]" />
+            </div>
+            
+            <h1 className="text-3xl font-serif font-medium text-neutral-900 mb-4 tracking-tight">
+              Invalid Reset Link
             </h1>
-            <p className="text-gray-600 mb-8">{error}</p>
+            
+            <p className="text-neutral-600 font-light mb-8">{error}</p>
+            
             <Link
               href="/forgot-password"
-              className="inline-block px-6 py-2 border border-gray-300 text-gray-900 uppercase text-xs tracking-wider hover:bg-gray-50 transition-colors"
+              className="inline-block px-6 py-3 border border-neutral-300 text-neutral-900 hover:bg-neutral-50 transition-colors text-sm uppercase tracking-wider font-medium"
             >
               Request New Link
             </Link>
           </div>
         </div>
-      </DefaultLayout>
+      </div>
     );
   }
 
   return (
-    <DefaultLayout>
-      <div className="max-w-md mx-auto px-4 py-12">
-        <div className="border border-gray-200 p-8 bg-white">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-light tracking-wide text-gray-900 mb-2">
-              SET NEW PASSWORD
+    <div className="min-h-screen flex">
+      {/* Left Side - Image */}
+      <div className="hidden lg:block lg:w-1/2 relative bg-neutral-900">
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 to-neutral-900" />
+        <div className="relative h-full flex flex-col justify-between p-12">
+          <Link href="/" className="inline-block">
+            <h1 className="text-3xl font-serif font-medium text-white tracking-tight">Livero</h1>
+          </Link>
+
+          <div className="text-white">
+            <h2 className="text-5xl font-serif font-medium mb-6 tracking-tight leading-tight">
+              Set New<br />Password
+            </h2>
+            <p className="text-xl text-neutral-300 font-light max-w-md">
+              Choose a strong password to secure your account and keep your information safe.
+            </p>
+          </div>
+
+          <div className="absolute bottom-0 right-0 w-2/3 h-2/3 opacity-10">
+            <div className="grid grid-cols-3 gap-4 h-full">
+              {[...Array(9)].map((_, i) => (
+                <div key={i} className="border border-white" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="flex-1 flex items-center justify-center p-8 bg-white">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center mb-8">
+            <Link href="/">
+              <h1 className="text-3xl font-serif font-medium text-neutral-900 tracking-tight">Livero</h1>
+            </Link>
+          </div>
+
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-serif font-medium text-neutral-900 mb-2 tracking-tight">
+              Set New Password
             </h1>
-            <p className="text-gray-600">
+            <p className="text-neutral-600 font-light">
               Enter a new password for <span className="font-medium">{email}</span>
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-xs uppercase tracking-wider text-gray-700 mb-2">
+              <label className="block text-xs uppercase tracking-wider font-medium text-neutral-900 mb-3">
                 New Password
               </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors"
-                placeholder="Minimum 6 characters"
-                required
-              />
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 border border-neutral-300 focus:border-neutral-900 focus:outline-none transition-colors font-light"
+                  placeholder="Minimum 6 characters"
+                  required
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-wider text-gray-700 mb-2">
+              <label className="block text-xs uppercase tracking-wider font-medium text-neutral-900 mb-3">
                 Confirm Password
               </label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors"
-                placeholder="Re-enter password"
-                required
-              />
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 border border-neutral-300 focus:border-neutral-900 focus:outline-none transition-colors font-light"
+                  placeholder="Re-enter password"
+                  required
+                />
+              </div>
             </div>
 
             {error && (
               <div className="p-4 border border-red-200 bg-red-50">
-                <p className="text-sm text-red-600">{error}</p>
+                <p className="text-sm text-red-600 font-light">{error}</p>
               </div>
             )}
 
             <button
               type="submit"
               disabled={verifying}
-              className="w-full py-3 bg-gray-900 text-white uppercase text-xs tracking-wider hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
+              className="w-full py-4 bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm uppercase tracking-wider font-medium"
             >
               {verifying ? 'Resetting...' : 'Reset Password'}
             </button>
           </form>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 }
 

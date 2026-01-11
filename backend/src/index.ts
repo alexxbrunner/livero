@@ -12,6 +12,7 @@ import adminRoutes from './routes/admin.routes';
 import customerRoutes from './routes/customer.routes';
 import billingRoutes from './routes/billing.routes';
 import teamRoutes from './routes/team.routes';
+import searchRoutes from './routes/search.routes';
 
 import { startSyncJobs } from './jobs/sync.jobs';
 
@@ -39,6 +40,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/customer', customerRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/team', teamRoutes);
+app.use('/api/search', searchRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

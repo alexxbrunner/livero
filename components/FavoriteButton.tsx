@@ -5,18 +5,21 @@ import { Heart } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import api from '@/lib/api'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 interface FavoriteButtonProps {
   productId: string
   size?: 'sm' | 'md' | 'lg'
-  showText?: boolean
+  className?: string
 }
 
-export default function FavoriteButton({ productId, size = 'md', showText = false }: FavoriteButtonProps) {
+export default function FavoriteButton({ productId, size = 'md', className = '' }: FavoriteButtonProps) {
+  const { user } = useAuthStore()
+  const router = useRouter()
   const [isFavorite, setIsFavorite] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { user, token } = useAuthStore()
 
+  // Size classes
   const sizeClasses = {
     sm: 'w-8 h-8',
     md: 'w-10 h-10',
@@ -30,10 +33,10 @@ export default function FavoriteButton({ productId, size = 'md', showText = fals
   }
 
   useEffect(() => {
-    if (user?.role === 'CUSTOMER' && token) {
+    if (user?.role === 'CUSTOMER') {
       checkFavoriteStatus()
     }
-  }, [productId, user, token])
+  }, [productId, user])
 
   const checkFavoriteStatus = async () => {
     try {
@@ -49,7 +52,8 @@ export default function FavoriteButton({ productId, size = 'md', showText = fals
     e.stopPropagation()
 
     if (!user) {
-      toast.error('Please sign in to save favorites')
+      toast.error('Please login to save favorites')
+      router.push('/login')
       return
     }
 
@@ -71,38 +75,41 @@ export default function FavoriteButton({ productId, size = 'md', showText = fals
         toast.success('Added to favorites')
       }
     } catch (error: any) {
+      console.error('Error toggling favorite:', error)
       toast.error(error.response?.data?.error || 'Failed to update favorites')
     } finally {
       setLoading(false)
     }
   }
 
-  if (user?.role !== 'CUSTOMER') {
-    return null
-  }
-
   return (
     <button
       onClick={handleToggleFavorite}
       disabled={loading}
-      className={`${sizeClasses[size]} ${
-        showText ? 'px-4 w-auto' : ''
-      } flex items-center justify-center gap-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-        isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'
-      }`}
-      aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+      className={`
+        ${sizeClasses[size]}
+        ${className}
+        flex items-center justify-center
+        rounded-full
+        bg-white/90 backdrop-blur-sm
+        border border-neutral-200
+        hover:bg-white hover:border-neutral-300
+        transition-all duration-200
+        group
+        ${loading ? 'opacity-50 cursor-not-allowed' : ''}
+      `}
+      title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
     >
       <Heart
-        className={iconSizes[size]}
-        fill={isFavorite ? 'currentColor' : 'none'}
-        strokeWidth={2}
+        className={`
+          ${iconSizes[size]}
+          transition-all duration-200
+          ${isFavorite 
+            ? 'fill-red-500 text-red-500' 
+            : 'text-neutral-600 group-hover:text-red-500 group-hover:scale-110'
+          }
+        `}
       />
-      {showText && (
-        <span className="text-sm font-medium">
-          {isFavorite ? 'Saved' : 'Save'}
-        </span>
-      )}
     </button>
   )
 }
-
