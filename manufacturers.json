@@ -1,0 +1,905 @@
+[
+  {
+    "name": "Ekornes Möbelvertriebs GmbH",
+    "address": "Am Standtrand 56",
+    "postal_code": "22047",
+    "city": "Hamburg",
+    "country": "Deutschland",
+    "email": "kundendienst.de@stressless.com"
+  },
+  {
+    "name": "Vitra International AG",
+    "address": "Klünenfeldstrasse 22",
+    "postal_code": "4127",
+    "city": "Birsfelden",
+    "country": "Schweiz",
+    "email": "info@vitra.com"
+  },
+  {
+    "name": "Walter Knoll AG & Co. KG",
+    "address": "Bahnhofstrasse 25",
+    "postal_code": "71083",
+    "city": "Herrenberg",
+    "country": "Deutschland",
+    "email": "info@walterknoll.de"
+  },
+  {
+    "name": "Christine Kröncke Interior Design GmbH",
+    "address": "Thierschstraße 37",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@ChristineKroencke.net"
+  },
+  {
+    "name": "ROLF BENZ AG & Co. KG",
+    "address": "Haiterbacher Straße 104",
+    "postal_code": "72202",
+    "city": "Nagold",
+    "country": "Deutschland",
+    "email": "info@rolf-benz.com"
+  },
+  {
+    "name": "Minotti S.p.A.",
+    "address": "Via Indipendenza 152",
+    "postal_code": "20821",
+    "city": "Meda",
+    "country": "Italien",
+    "email": "info@minotti.it"
+  },
+  {
+    "name": "brühl & sippold GmbH",
+    "address": "Alter Bad Stebener Weg 1",
+    "postal_code": "95138",
+    "city": "Bad Steben",
+    "country": "Deutschland",
+    "email": "info@bruehl.com"
+  },
+  {
+    "name": "Bonaldo S.p.A.",
+    "address": "Via Straelle 3",
+    "postal_code": "",
+    "city": "Via Straelle 3",
+    "country": "Italien",
+    "email": "info@bonaldo.com"
+  },
+  {
+    "name": "B&B Italia",
+    "address": "Via Provinciale Novedratese, 32/15",
+    "postal_code": "22060",
+    "city": "Novedrate, CO",
+    "country": "Italien",
+    "email": "info@bebitalia.com"
+  },
+  {
+    "name": "WK Wohnen Vertriebs GmbH",
+    "address": "Hauptstraße 134-140",
+    "postal_code": "33378",
+    "city": "Rheda-Wiedenbrück",
+    "country": "Deutschland",
+    "email": "info@wk-wohnen.de"
+  },
+  {
+    "name": "BW Bielefelder Werkstätten KG",
+    "address": "Potsdamer Straße 180",
+    "postal_code": "33701",
+    "city": "Bielefeld",
+    "country": "Deutschland",
+    "email": "bw-kontakt@jab.de"
+  },
+  {
+    "name": "Bert Plantagie",
+    "address": "Laagveld 10",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@bertplantagie.com"
+  },
+  {
+    "name": "Team 7 Natürlich Wohnen GmbH",
+    "address": "Team-7-Platz-1",
+    "postal_code": "4910",
+    "city": "Ried im Innenkreis",
+    "country": "Österreich",
+    "email": "info@team7.at"
+  },
+  {
+    "name": "Aper S.p.A.",
+    "address": "Via Lombardia 16",
+    "postal_code": "31050",
+    "city": "Monastier die Treviso",
+    "country": "Italien",
+    "email": "arper@neumann-communication.de"
+  },
+  {
+    "name": "COR Sitzmöbel Helmut Lübke GmbH & Co. KG",
+    "address": "Nonenstraße 12",
+    "postal_code": "33378",
+    "city": "Rheda-Wiedenbrück",
+    "country": "Deutschland",
+    "email": "info@cor.de"
+  },
+  {
+    "name": "Flexform S.p.A.",
+    "address": "Via Einaudi 23/25",
+    "postal_code": "20821",
+    "city": "Meda",
+    "country": "Italien",
+    "email": "info@flexform.it"
+  },
+  {
+    "name": "Europa-Möbel-Verbund GmbH & Co. KG",
+    "address": "Ampertal 8",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "comfortrepublic@emverbund.de"
+  },
+  {
+    "name": "Accente Einrichtungsgesellschaft GmbH",
+    "address": "Viktoriastraße 12-14",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@accente.com"
+  },
+  {
+    "name": "Lübke GmbH",
+    "address": "Ringstraße 145",
+    "postal_code": "33378",
+    "city": "Rheda-Wiedenbrück",
+    "country": "Deutschland",
+    "email": "info@interluebke.de"
+  },
+  {
+    "name": "Cierre Imbottiti srl",
+    "address": "Via Giovanni Ansaldo 2",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "info@cierreimbottiti.com"
+  },
+  {
+    "name": "Wittmann Möbelwerkstätten GmbH",
+    "address": "Obere Marktstrasse 5",
+    "postal_code": "3492",
+    "city": "Etsdorf / Kamp",
+    "country": "Österreich",
+    "email": "info@wittmann.at"
+  },
+  {
+    "name": "hülsta-werke Hüls GmbH & Co. KG",
+    "address": "Karl-Hüls-Straße 1",
+    "postal_code": "48703",
+    "city": "Stadtlohn",
+    "country": "Deutschland",
+    "email": "online-marketing@huelsta.com"
+  },
+  {
+    "name": "Bent Hansen A/S",
+    "address": "Kaolinvej 1",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@benthansen.net"
+  },
+  {
+    "name": "Cassina S.p.A.",
+    "address": "Via Busnelli 1",
+    "postal_code": "20821",
+    "city": "Meda, MB",
+    "country": "Italien",
+    "email": "ecommerce@cassina.com"
+  },
+  {
+    "name": "Baxter S.R.L",
+    "address": "Via Trento 68",
+    "postal_code": "",
+    "city": "Meda",
+    "country": "Italien",
+    "email": "mariorossi@email.it"
+  },
+  {
+    "name": "Behr Einrichtung GmbH",
+    "address": "Bahnhofstraße 100",
+    "postal_code": "73249",
+    "city": "Wendlingen am Neckar",
+    "country": "Deutschland",
+    "email": "info@behr-einrichtung.de"
+  },
+  {
+    "name": "Leolux Livign B.V.",
+    "address": "Kazernestraat 15",
+    "postal_code": "5928",
+    "city": "Venlo",
+    "country": "",
+    "email": "info@leolux.nl"
+  },
+  {
+    "name": "ClassiCon GmbH",
+    "address": "Sigmund-Riefler-Bogen 3",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@classicon.com"
+  },
+  {
+    "name": "Candy Polstermöbel GmbH",
+    "address": "Am Jägerheim 1c",
+    "postal_code": "",
+    "city": "Am Jägerheim 1c",
+    "country": "Deutschland",
+    "email": "info@candy-polstermöbel.de"
+  },
+  {
+    "name": "Horst AG",
+    "address": "Bahnhofstrasse 25",
+    "postal_code": "6422",
+    "city": "Steinen",
+    "country": "Schweiz",
+    "email": "info@artanova-horst.ch"
+  },
+  {
+    "name": "Freifrau Manufaktur GmbH",
+    "address": "Gildestraße 9",
+    "postal_code": "",
+    "city": "",
+    "country": "Deutschland",
+    "email": "info@freifrau.com"
+  },
+  {
+    "name": "Alias S.r.l. a Socio Unico",
+    "address": "Via delle Marine 5",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "info@alias.design"
+  },
+  {
+    "name": "ARKETIPO srl",
+    "address": "Via Garibaldi 84-86",
+    "postal_code": "50041",
+    "city": "Calenzano",
+    "country": "Italien",
+    "email": "info@arketipo.com"
+  },
+  {
+    "name": "RIVA Industria Mobili S.p.A.",
+    "address": "Via Milano 137",
+    "postal_code": "22063",
+    "city": "Cantù (CO)",
+    "country": "Italien",
+    "email": "info@riva1920.it"
+  },
+  {
+    "name": "Calia Trade S.p.a.",
+    "address": "Contrada Serritello La Valle",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "info@calitrade.com"
+  },
+  {
+    "name": "M.+W. Bacher GmbH",
+    "address": "Benzstraße 23",
+    "postal_code": "71272",
+    "city": "Renningen",
+    "country": "Deutschland",
+    "email": "info@Bachertische.de"
+  },
+  {
+    "name": "USM U. Schärer Söhne AG",
+    "address": "Thunstrasse 55",
+    "postal_code": "3110",
+    "city": "Schweiz",
+    "country": "Schweiz",
+    "email": "info.de@usm.com"
+  },
+  {
+    "name": "Bretz Wohnträume GmbH",
+    "address": "Alexander-Bretz-Straße 2",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@bretz.de"
+  },
+  {
+    "name": "Bullfrog Marketing & Design GmbH",
+    "address": "Landwehrstraße 32",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@bullfrog-design.de"
+  },
+  {
+    "name": "Bali Schaumstoff GmbH",
+    "address": "An der Eiche 2",
+    "postal_code": "33175",
+    "city": "Bad Lippspringe",
+    "country": "Deutschland",
+    "email": "info@bali-gmbh.de"
+  },
+  {
+    "name": "DEDON GmbH",
+    "address": "Zeppelinstrasse 22",
+    "postal_code": "21337",
+    "city": "Lüneburg",
+    "country": "Deutschland",
+    "email": "info@dedon.de"
+  },
+  {
+    "name": "Baltensweiler AG",
+    "address": "Staldenhof 2",
+    "postal_code": "6014",
+    "city": "Luzern",
+    "country": "Schweiz",
+    "email": "info@baltensweiler.ch"
+  },
+  {
+    "name": "Allermuir",
+    "address": "Altham Business Park",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@allermuir.com"
+  },
+  {
+    "name": "Koch-Chemie GmbH",
+    "address": "Einsteinstraße 42",
+    "postal_code": "",
+    "city": "",
+    "country": "Deutschland",
+    "email": "kundenservice@koch-chemie.com"
+  },
+  {
+    "name": "Activineo GmbH & Co. KG",
+    "address": "Auf der Röth 33",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@activineo.de"
+  },
+  {
+    "name": "Cane-line A/S",
+    "address": "Rynkebyvej 245",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "contact@cane-line.com"
+  },
+  {
+    "name": "belux AG",
+    "address": "Neufeldweg 6",
+    "postal_code": "5103",
+    "city": "Möriken",
+    "country": "Schweiz",
+    "email": "belux@belux.com"
+  },
+  {
+    "name": "Conform Collection AB",
+    "address": "Vetlandavägen 14",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@conform.se"
+  },
+  {
+    "name": "ASCO GmbH",
+    "address": "Wichernstraße 2",
+    "postal_code": "33378",
+    "city": "Rheda-Wiedenbrück",
+    "country": "Deutschland",
+    "email": "info@asco.cc"
+  },
+  {
+    "name": "Casarte Interiordesign GmbH",
+    "address": "Lippstädter Straße 44",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "casarte.interior@gmail.com"
+  },
+  {
+    "name": "Carl Hansen & Søn Møbelfabrik A/S",
+    "address": "Hylkedamsvej 77",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "webshop@carlhansen.dk"
+  },
+  {
+    "name": "ANREI-Reisinger GmbH",
+    "address": "Markt 80",
+    "postal_code": "",
+    "city": "Österreich",
+    "country": "Österreich",
+    "email": "anrei@anrei.at"
+  },
+  {
+    "name": "&Tradition A/S",
+    "address": "Fredericiagade 21",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@andtradition.com"
+  },
+  {
+    "name": "Cattelan Italia S.p.A.",
+    "address": "Via Pilastri 19",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "info@cattelanitalia.com"
+  },
+  {
+    "name": "Capod'opera Srl",
+    "address": "Via Fornaci 23",
+    "postal_code": "",
+    "city": "",
+    "country": "Italien",
+    "email": ""
+  },
+  {
+    "name": "Cap Design S.P.A.",
+    "address": "Via Borgogna 8",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "cappellini@cappellini.it"
+  },
+  {
+    "name": "Catellani & Smith Srl",
+    "address": "Via Cimitero 1/A",
+    "postal_code": "",
+    "city": "",
+    "country": "Italien",
+    "email": "info@catellanismith.com"
+  },
+  {
+    "name": "BMRC Group s.r.o.",
+    "address": "Pos Dráhou 1638/7",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@bomma.cz"
+  },
+  {
+    "name": "ArtigianMobili Industry",
+    "address": "Zona Ind.le di Colleranesco",
+    "postal_code": "64021",
+    "city": "Giulianova",
+    "country": "Italien",
+    "email": "info@artigianmobili.it"
+  },
+  {
+    "name": "bordbar design GmbH",
+    "address": "Daimlerstraße 21",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "cockpit@bordbar.de"
+  },
+  {
+    "name": "Brand van Egmond B. V.",
+    "address": "Nikkelstraat 41",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@brandvanegmond.com"
+  },
+  {
+    "name": "Edra S. p.A.",
+    "address": "Via Livornese Est 106",
+    "postal_code": "56035",
+    "city": "Perigano, Pisa",
+    "country": "Italien",
+    "email": "edra@edra.com"
+  },
+  {
+    "name": "Brunner GmbH",
+    "address": "Im Salmenkopf 10",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@brunner-group.com"
+  },
+  {
+    "name": "Arte Brotto Mobili Srl",
+    "address": "Via Pigna 36",
+    "postal_code": "36027",
+    "city": "Rosà",
+    "country": "Italien",
+    "email": "info@artebrotto.it"
+  },
+  {
+    "name": "Bodal Møbler Aps",
+    "address": "Lundholmvej 23",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@bodahlmoebel.dk"
+  },
+  {
+    "name": "Artek oy ab",
+    "address": "Mannerheimintie 12 B",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@artek.fi"
+  },
+  {
+    "name": "CS rugs",
+    "address": "Bonksel 1",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@csrugs.com"
+  },
+  {
+    "name": "Baleri Italia",
+    "address": "Via Borgonuovo 14",
+    "postal_code": "20121",
+    "city": "Mailand",
+    "country": "Italien",
+    "email": "info@baleri-italia.com"
+  },
+  {
+    "name": "Artemide S.p.A.",
+    "address": "Via Bergamo 18",
+    "postal_code": "20006",
+    "city": "Pregana Milanese",
+    "country": "Italien",
+    "email": "privacy@artemide.com"
+  },
+  {
+    "name": "Conde House Europe GmbH",
+    "address": "Im Sinderfeld 8",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@condehouse.de"
+  },
+  {
+    "name": "Casamilano Srl",
+    "address": "Corso Europa 12",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": ""
+  },
+  {
+    "name": "ASSMANN BÜROMÖBEL GMBH & CO. KG",
+    "address": "Heinrich-Assmann-Straße 11",
+    "postal_code": "49324",
+    "city": "Melle",
+    "country": "Deutschland",
+    "email": "info@assmann.de"
+  },
+  {
+    "name": "Cartel Living",
+    "address": "G",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@cartelliving.nl"
+  },
+  {
+    "name": "Carina Polstermöbel-Vertriebs GmbH",
+    "address": "Am Jägerheim 1c",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@carina-polstermoebel.de"
+  },
+  {
+    "name": "Caccaro Srl",
+    "address": "Via Corse 13",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": ""
+  },
+  {
+    "name": "BD Barcelona",
+    "address": "Ramon Turró 126",
+    "postal_code": "8005",
+    "city": "Barcelona",
+    "country": "Spanien",
+    "email": "bd@bdbarcelona.com"
+  },
+  {
+    "name": "Berg Furniture A/S",
+    "address": "Industrievej 48",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "mail@bergfurniture.dk"
+  },
+  {
+    "name": "Remade Carpets UG",
+    "address": "Nymphenburgerstraße 185",
+    "postal_code": "",
+    "city": "",
+    "country": "Deutschland",
+    "email": "design@carpets-remade.com"
+  },
+  {
+    "name": "Andreu World C",
+    "address": "Los Sauces 7",
+    "postal_code": "",
+    "city": "Spanien",
+    "country": "Spanien",
+    "email": "info@andreuworld.com"
+  },
+  {
+    "name": "Bree's New World",
+    "address": "Kotterstraat 8",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@breesnewworld.nl"
+  },
+  {
+    "name": "Aguti Produktentwicklung & Design GmbH",
+    "address": "Bildstock 18/3",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@aguti.com"
+  },
+  {
+    "name": "Bosse Design Gesellschaft für innovative Office Interiors mbH & Co. KG",
+    "address": "Stahler Ufer 7",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@bosse.de"
+  },
+  {
+    "name": "Aeris GmbH",
+    "address": "Hans-Stießberger-Straße 2a",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@aeris.de"
+  },
+  {
+    "name": "AN Collection GmbH",
+    "address": "Heidegrundweg 104-108",
+    "postal_code": "33689",
+    "city": "Bielefeld",
+    "country": "Deutschland",
+    "email": "mail@an-collection.com"
+  },
+  {
+    "name": "Mymito GmbH",
+    "address": "Ronsdorfer Straße 74",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "contact@cubit-shop.com"
+  },
+  {
+    "name": "Brokis Workshop & Showroom",
+    "address": "Sídlište Janštejn 39",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@brokis.cz"
+  },
+  {
+    "name": "Actiu",
+    "address": "Parque Tecnològico Actiu - Autovía CV. 80",
+    "postal_code": "",
+    "city": "",
+    "country": "Spanien",
+    "email": "correo@actiu.com"
+  },
+  {
+    "name": "Audo Copenhagen",
+    "address": "Aarhusgade 130 1ST",
+    "postal_code": "2150",
+    "city": "Kopenhagen",
+    "country": "",
+    "email": "info@audocph.com"
+  },
+  {
+    "name": "Artcopi",
+    "address": "76 Avenue du Général de Gaulle",
+    "postal_code": "85120",
+    "city": "La Châtaigneraie",
+    "country": "Frankreich",
+    "email": "noemie.ledain@meubles-couture.fr"
+  },
+  {
+    "name": "BENE GmbH",
+    "address": "Schwarzwiesenstraße 3",
+    "postal_code": "3340",
+    "city": "Waidhofen an der Ybbs",
+    "country": "Österreich",
+    "email": "office@bene.com"
+  },
+  {
+    "name": "Boema Srl",
+    "address": "Via Padova 12",
+    "postal_code": "",
+    "city": "Via Padova 12",
+    "country": "Italien",
+    "email": "info@bodema.it"
+  },
+  {
+    "name": "Batel Créations",
+    "address": "Zone d'activité du V",
+    "postal_code": "50220",
+    "city": "Pontaubault",
+    "country": "Frankreich",
+    "email": "contact@meublesbatel.com"
+  },
+  {
+    "name": "Benformato GmbH & Co. KG",
+    "address": "Karl-Triebold-Straße 4",
+    "postal_code": "33659",
+    "city": "Bielefeld",
+    "country": "Deutschland",
+    "email": "info@benformato.de"
+  },
+  {
+    "name": "Baur GmbH & Co KG",
+    "address": "Burgkunstadt",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "service@baur.de"
+  },
+  {
+    "name": "Anglepoise HQ",
+    "address": "Birch House",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "hello@anglepoise.com"
+  },
+  {
+    "name": "D-TEC Industriedesign GmbH",
+    "address": "Lierenfelder Straße 49",
+    "postal_code": "",
+    "city": "Lierenfelder Straße 49",
+    "country": "Deutschland",
+    "email": "marketing-servic@d-tec.de"
+  },
+  {
+    "name": "BMB Italy srls",
+    "address": "Via Lavoria 48",
+    "postal_code": "",
+    "city": "Via Lavoria 48",
+    "country": "bmb@bmbitaly.com",
+    "email": ""
+  },
+  {
+    "name": "artflex",
+    "address": "Via Pizzo Scalino 1",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "info@arflex.it"
+  },
+  {
+    "name": "Bontempi S.p.A.",
+    "address": "Via Caduti del Lavoro 4",
+    "postal_code": "",
+    "city": "Via Caduti del Lavoro 4",
+    "country": "Italien",
+    "email": "info@bontempi.com"
+  },
+  {
+    "name": "Clei S.r.l.",
+    "address": "Via G. Marconi",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "info@clei.it"
+  },
+  {
+    "name": "Bocci",
+    "address": "295 Railway St.",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "designteam@bocci.com"
+  },
+  {
+    "name": "Casalis",
+    "address": "Stasegemsesteenweg 72",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@casalis.be"
+  },
+  {
+    "name": "Flokk LTD",
+    "address": "Unit 4, AAA Park, Leeds Road",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "enquiries@connection.uk.com"
+  },
+  {
+    "name": "101 Copenhagen Aps",
+    "address": "Østergade 17",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@101cph.com"
+  },
+  {
+    "name": "Lande NL b.v.",
+    "address": "Van Leeuwenhoekweg 20",
+    "postal_code": "5482",
+    "city": "TK Schijndel",
+    "country": "",
+    "email": "info@artifort.com"
+  },
+  {
+    "name": "Cascando Products B.V.",
+    "address": "Impact 2",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "design@cascando.nl"
+  },
+  {
+    "name": "Collinet",
+    "address": "Rue du Moulin 4",
+    "postal_code": "",
+    "city": "Frankreich",
+    "country": "Frankreich",
+    "email": "contact@collinet-sieges.fr"
+  },
+  {
+    "name": "Bonacina 1889",
+    "address": "Via San Primo 19",
+    "postal_code": "",
+    "city": "Via San Primo 19",
+    "country": "Italien",
+    "email": "info@bonacina1889.it"
+  },
+  {
+    "name": "Carega Sp. z.o.o.",
+    "address": "Powstańców Śl. 2/1",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@carega.eu"
+  },
+  {
+    "name": "Casabath srl",
+    "address": "Via Sicilia 70A",
+    "postal_code": "",
+    "city": "Italien",
+    "country": "Italien",
+    "email": "info@casabath.it"
+  },
+  {
+    "name": "alta linea GmbH",
+    "address": "Am Sandhof 6",
+    "postal_code": "",
+    "city": "",
+    "country": "Deutschland",
+    "email": "office@altalinea.de"
+  },
+  {
+    "name": "Black Red White SA",
+    "address": "Krzeszowska 63",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "bok@brwsa.com.pl"
+  },
+  {
+    "name": "Brune Sitzmöbel GmbH",
+    "address": "Flurweg 15",
+    "postal_code": "",
+    "city": "Deutschland",
+    "country": "Deutschland",
+    "email": "info@brune.de"
+  }

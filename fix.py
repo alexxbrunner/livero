@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Scrape manufacturer information from moebelfirst.de product pages.
-Uses concurrent requests with 20 workers to extract unique company names.
+Uses concurrent requests with 40 workers to extract unique company information including addresses.
 """
 
 import requests
@@ -10,11 +10,64 @@ from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from html import unescape
 import re
-from typing import Set, Optional
+import sys
+import json
+from typing import Set, Optional, Dict, Any
+from dataclasses import dataclass, asdict
 
 SITEMAP_URL = "https://www.moebelfirst.de/sitemap/c1aedaadc2d54272bc6b5450488a895e/products/product-sitemap0.xml"
-MAX_WORKERS = 20
+MAX_WORKERS = 40
 TIMEOUT = 30  # seconds
+
+
+@dataclass
+class ManufacturerInfo:
+    """Manufacturer information structure."""
+    name: str
+    address: str = ""
+    postal_code: str = ""
+    city: str = ""
+    country: str = ""
+    email: str = ""
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'name': self.name,
+            'address': self.address,
+            'postal_code': self.postal_code,
+            'city': self.city,
+            'country': self.country,
+            'email': self.email
+        }
+    
+    def __hash__(self):
+        """Make hashable based on name for set operations."""
+        return hash(self.name.lower().strip())
+    
+    def __eq__(self, other):
+        """Compare based on name."""
+        if not isinstance(other, ManufacturerInfo):
+            return False
+        return self.name.lower().strip() == other.name.lower().strip()
+    
+    def to_string(self) -> str:
+        """Convert to string representation for display."""
+        parts = [self.name]
+        if self.address:
+            parts.append(self.address)
+        if self.postal_code or self.city:
+            city_parts = []
+            if self.postal_code:
+                city_parts.append(self.postal_code)
+            if self.city:
+                city_parts.append(self.city)
+            if city_parts:
+                parts.append(' '.join(city_parts))
+        if self.country:
+            parts.append(self.country)
+        if self.email:
+            parts.append(self.email)
+        return ' | '.join(parts)
 
 
 def get_product_urls(sitemap_url: str) -> list[str]:
@@ -37,8 +90,8 @@ def get_product_urls(sitemap_url: str) -> list[str]:
     return urls
 
 
-def extract_manufacturer(html_content: str, url: str) -> Optional[str]:
-    """Extract manufacturer name from product page HTML."""
+def extract_manufacturer(html_content: str, url: str) -> Optional[ManufacturerInfo]:
+    """Extract complete manufacturer information from product page HTML."""
     try:
         soup = BeautifulSoup(html_content, 'html.parser')
         
@@ -57,62 +110,147 @@ def extract_manufacturer(html_content: str, url: str) -> Optional[str]:
         if not title or 'Hersteller:' not in title.get_text():
             return None
         
-        # Method 1: Get text directly after the title element (before first <br>)
-        # In the HTML structure, the manufacturer name comes right after the title div
-        title_text_nodes = []
-        for node in title.next_siblings:
-            # Check if it's a <br> tag
-            if hasattr(node, 'name') and node.name == 'br':
+        # Initialize variables
+        name = ""
+        address = ""
+        postal_code = ""
+        city = ""
+        country = ""
+        email = ""
+        
+        # Extract name: text directly after title div, before first <br>
+        current = title.next_sibling
+        name_parts = []
+        while current:
+            if hasattr(current, 'name') and current.name == 'br':
                 break
-            # Collect text nodes
-            if isinstance(node, str):
-                text = node.strip()
+            if isinstance(current, str):
+                text = current.strip()
                 if text:
-                    title_text_nodes.append(text)
-            elif hasattr(node, 'get_text'):
-                # If there's a nested element, get its text
-                text = node.get_text(strip=True)
-                if text:
-                    title_text_nodes.append(text)
+                    name_parts.append(text)
+            current = current.next_sibling
         
-        if title_text_nodes:
-            manufacturer = ' '.join(title_text_nodes).strip()
-            if manufacturer:
-                manufacturer = unescape(manufacturer)
-                manufacturer = re.sub(r'\s+', ' ', manufacturer)
-                # Take only the first meaningful line (before address info)
-                manufacturer = manufacturer.split('\n')[0].strip()
-                if manufacturer and len(manufacturer) > 2:
-                    return manufacturer
+        if name_parts:
+            name = ' '.join(name_parts).strip()
+            name = unescape(name)
+            name = re.sub(r'\s+', ' ', name)
         
-        # Method 2: Extract from full column text using regex
-        # Split by newlines and find the line after "Hersteller:"
+        if not name or len(name) < 2:
+            return None
+        
+        # Get all text from column and parse by lines
+        # Structure: Hersteller:\nName\nAddress\nPostalCode\nCity\nCountry\nEmail
         column_text = column.get_text(separator='\n', strip=True)
-        lines = column_text.split('\n')
+        lines = [line.strip() for line in column_text.split('\n') if line.strip() and line.strip() != 'Hersteller:']
         
+        # Find name in lines (first line after "Hersteller:")
+        name_line_idx = -1
         for i, line in enumerate(lines):
-            if 'Hersteller:' in line and i + 1 < len(lines):
-                # Next line should be the manufacturer name
-                manufacturer = lines[i + 1].strip()
-                if manufacturer:
-                    manufacturer = unescape(manufacturer)
-                    manufacturer = re.sub(r'\s+', ' ', manufacturer)
-                    # Remove address patterns (postal codes, etc.)
-                    manufacturer = re.sub(r'\s+\d{4,}\s+.*$', '', manufacturer)
-                    if manufacturer and len(manufacturer) > 2:
-                        return manufacturer
+            if name.lower() in line.lower() or (len(name) > 10 and line.lower().startswith(name[:10].lower())):
+                name_line_idx = i
+                break
         
-        # Method 3: Regex fallback
-        all_text = column.get_text()
-        match = re.search(r'Hersteller:\s*([^\n<]+?)(?:\n|$)', all_text, re.IGNORECASE)
-        if match:
-            manufacturer = match.group(1).strip()
-            manufacturer = unescape(manufacturer)
-            manufacturer = re.sub(r'\s+', ' ', manufacturer)
-            # Remove address parts
-            manufacturer = re.sub(r'\s+\d{4,}.*$', '', manufacturer)
-            if manufacturer and len(manufacturer) > 2:
-                return manufacturer
+        if name_line_idx >= 0:
+            # Extract address (next line after name, if it doesn't look like postal code or email)
+            if name_line_idx + 1 < len(lines):
+                next_line = lines[name_line_idx + 1]
+                if not re.match(r'^\d{4,5}$', next_line) and '@' not in next_line:
+                    address = unescape(next_line)
+                    address = re.sub(r'\s+', ' ', address)
+            
+            # Extract postal code, city, country (in sequence after address)
+            idx = name_line_idx + 2
+            while idx < len(lines):
+                line = lines[idx].strip()
+                if not line:
+                    idx += 1
+                    continue
+                
+                # Check for postal code (4-5 digits)
+                if re.match(r'^\d{4,5}$', line):
+                    postal_code = line
+                    # Next line is likely city
+                    if idx + 1 < len(lines):
+                        city_line = lines[idx + 1].strip()
+                        if city_line and not re.match(r'^\d', city_line) and '@' not in city_line:
+                            city = unescape(city_line)
+                            idx += 2
+                            continue
+                    idx += 1
+                    continue
+                
+                # Check for country (common country names)
+                country_keywords = ['Deutschland', 'Germany', 'Österreich', 'Austria', 'Schweiz', 'Switzerland', 
+                                  'Italy', 'Italien', 'France', 'Frankreich', 'Spain', 'Spanien']
+                if any(kw.lower() in line.lower() for kw in country_keywords):
+                    country = unescape(line)
+                    idx += 1
+                    continue
+                
+                # Check for email
+                if '@' in line and '.' in line:
+                    email = unescape(line)
+                    idx += 1
+                    continue
+                
+                idx += 1
+        
+        # Also parse HTML structure directly as fallback
+        # Get all text nodes and divs after title
+        current = title.next_sibling
+        parts_collected = []
+        while current:
+            if hasattr(current, 'name'):
+                if current.name == 'div':
+                    div_text = current.get_text(strip=True)
+                    if div_text:
+                        parts_collected.append(div_text)
+            elif isinstance(current, str):
+                text = current.strip()
+                if text:
+                    parts_collected.append(text)
+            current = current.next_sibling
+        
+        # Use collected parts to fill in missing fields
+        if parts_collected:
+            for part in parts_collected:
+                part_clean = part.strip()
+                # Postal code
+                if not postal_code and re.match(r'^\d{4,5}$', part_clean):
+                    postal_code = part_clean
+                # Email
+                elif not email and '@' in part_clean and '.' in part_clean:
+                    email = unescape(part_clean)
+                # Country
+                elif not country:
+                    country_keywords = ['Deutschland', 'Germany', 'Österreich', 'Austria', 'Schweiz', 'Switzerland']
+                    if any(kw.lower() in part_clean.lower() for kw in country_keywords):
+                        country = unescape(part_clean)
+                # Address (if not set and doesn't match name)
+                elif not address and part_clean.lower() != name.lower() and not re.match(r'^\d', part_clean) and '@' not in part_clean:
+                    address = unescape(part_clean)
+                    address = re.sub(r'\s+', ' ', address)
+                # City (if not set)
+                elif not city and not re.match(r'^\d', part_clean) and '@' not in part_clean and part_clean.lower() != name.lower():
+                    city = unescape(part_clean)
+        
+        # Clean up
+        name = name.strip() if name else ""
+        address = address.strip() if address else ""
+        postal_code = postal_code.strip() if postal_code else ""
+        city = city.strip() if city else ""
+        country = country.strip() if country else ""
+        email = email.strip() if email else ""
+        
+        if name and len(name) > 2:
+            return ManufacturerInfo(
+                name=name,
+                address=address,
+                postal_code=postal_code,
+                city=city,
+                country=country,
+                email=email
+            )
                 
     except Exception as e:
         print(f"Error parsing HTML from {url}: {e}")
@@ -120,8 +258,8 @@ def extract_manufacturer(html_content: str, url: str) -> Optional[str]:
     return None
 
 
-def scrape_product(url: str) -> tuple[str, Optional[str]]:
-    """Scrape a single product page and return (url, manufacturer)."""
+def scrape_product(url: str) -> tuple[str, Optional[ManufacturerInfo]]:
+    """Scrape a single product page and return (url, manufacturer_info)."""
     try:
         response = requests.get(url, timeout=TIMEOUT, headers={
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
@@ -148,33 +286,42 @@ def main():
         return
     
     # Scrape all products concurrently
-    manufacturers: Set[str] = set()
+    manufacturers: Set[ManufacturerInfo] = set()
     processed = 0
     failed = 0
+    output_file = "manufacturers.json"
     
     print(f"\nScraping {len(product_urls)} product pages...")
+    print(f"Results will be streamed to: {output_file}")
     print()
     
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        # Submit all tasks
-        future_to_url = {executor.submit(scrape_product, url): url for url in product_urls}
-        
-        # Process completed tasks
-        for future in as_completed(future_to_url):
-            url, manufacturer = future.result()
-            processed += 1
+    # Open file for streaming JSON (JSONL format - one JSON object per line)
+    with open(output_file, 'w', encoding='utf-8') as f:
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            # Submit all tasks
+            future_to_url = {executor.submit(scrape_product, url): url for url in product_urls}
             
-            if manufacturer:
-                is_new = manufacturer not in manufacturers
-                manufacturers.add(manufacturer)
-                if is_new:
-                    print(f"[{processed}/{len(product_urls)}] ✓ New: {manufacturer}")
-            else:
-                failed += 1
-            
-            # Progress update every 100 pages
-            if processed % 100 == 0:
-                print(f"\nProgress: {processed}/{len(product_urls)} processed | {len(manufacturers)} unique manufacturers found | {failed} failed\n")
+            # Process completed tasks and stream results in real-time
+            for future in as_completed(future_to_url):
+                url, manufacturer = future.result()
+                processed += 1
+                
+                if manufacturer:
+                    is_new = manufacturer not in manufacturers
+                    manufacturers.add(manufacturer)
+                    if is_new:
+                        # Stream to console
+                        print(f"[{processed}/{len(product_urls)}] ✓ New: {manufacturer.to_string()}", flush=True)
+                        # Stream to file as JSON (JSONL format - one object per line)
+                        json_line = json.dumps(manufacturer.to_dict(), ensure_ascii=False)
+                        f.write(json_line + '\n')
+                        f.flush()  # Ensure it's written to disk immediately
+                else:
+                    failed += 1
+                
+                # Progress update every 50 pages
+                if processed % 50 == 0:
+                    print(f"[Progress: {processed}/{len(product_urls)} processed | {len(manufacturers)} unique manufacturers | {failed} failed]", flush=True)
     
     # Output results
     print("\n" + "="*80)
@@ -188,20 +335,15 @@ def main():
     print("UNIQUE MANUFACTURERS:")
     print("="*80)
     
-    # Sort manufacturers alphabetically
-    sorted_manufacturers = sorted(manufacturers, key=str.lower)
+    # Sort manufacturers alphabetically by name
+    sorted_manufacturers = sorted(manufacturers, key=lambda m: m.name.lower())
     for i, manufacturer in enumerate(sorted_manufacturers, 1):
-        print(f"{i}. {manufacturer}")
+        print(f"{i}. {manufacturer.to_string()}")
     
     print("\n" + "="*80)
-    
-    # Also save to a file
-    output_file = "manufacturers.txt"
-    with open(output_file, 'w', encoding='utf-8') as f:
-        for manufacturer in sorted_manufacturers:
-            f.write(f"{manufacturer}\n")
-    
-    print(f"\nResults saved to: {output_file}")
+    print(f"\nResults streamed to: {output_file} (JSONL format - one JSON object per line)")
+    print(f"Note: File was written in real-time. Total unique manufacturers: {len(manufacturers)}")
+    print(f"Each line is a valid JSON object with fields: name, address, postal_code, city, country, email")
 
 
 if __name__ == "__main__":

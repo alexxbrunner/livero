@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Store, User, Heart, ShoppingBag, Menu, X, ChevronDown, LogOut } from 'lucide-react'
 import { categories } from '@/lib/categories'
 import { useAuthStore } from '@/store/authStore'
@@ -44,11 +45,18 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-neutral-800 to-neutral-600 rounded-lg flex items-center justify-center group-hover:from-neutral-700 group-hover:to-neutral-500 transition-all">
-              <Store className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 relative flex items-center justify-center">
+              <Image 
+                src="/livaor_logo.png" 
+                alt="Livaro Logo" 
+                width={40} 
+                height={40} 
+                className="object-contain"
+                priority
+              />
             </div>
             <div>
-              <span className="text-2xl font-serif font-bold text-neutral-900 tracking-tight">{t('nav.brand')}</span>
+              <span className="text-2xl font-serif  text-neutral-900 tracking-tight">{t('nav.brand')}</span>
               <p className="text-[10px] text-neutral-500 -mt-1 tracking-widest uppercase">{t('nav.tagline')}</p>
             </div>
           </Link>
