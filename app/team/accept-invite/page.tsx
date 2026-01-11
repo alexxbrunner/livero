@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import DefaultLayout from '@/components/DefaultLayout';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 
-export default function AcceptInvitePage() {
+function AcceptInviteForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -186,6 +186,20 @@ export default function AcceptInvitePage() {
         </div>
       </div>
     </DefaultLayout>
+  );
+}
+
+export default function AcceptInvitePage() {
+  return (
+    <Suspense fallback={
+      <DefaultLayout>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <p className="text-gray-500">Loading...</p>
+        </div>
+      </DefaultLayout>
+    }>
+      <AcceptInviteForm />
+    </Suspense>
   );
 }
 

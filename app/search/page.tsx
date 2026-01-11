@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import DefaultLayout from '@/components/DefaultLayout';
@@ -8,7 +8,7 @@ import api from '@/lib/api';
 import { Search, Package, Store as StoreIcon, TrendingUp } from 'lucide-react';
 import { useI18n } from '@/contexts/I18nContext';
 
-export default function SearchResultsPage() {
+function SearchResultsContent() {
   const { t } = useI18n();
   const searchParams = useSearchParams();
   const query = searchParams.get('q');
@@ -224,6 +224,23 @@ export default function SearchResultsPage() {
         )}
       </div>
     </DefaultLayout>
+  );
+}
+
+export default function SearchResultsPage() {
+  return (
+    <Suspense fallback={
+      <DefaultLayout>
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-neutral-600 font-light">Loading...</p>
+          </div>
+        </div>
+      </DefaultLayout>
+    }>
+      <SearchResultsContent />
+    </Suspense>
   );
 }
 
