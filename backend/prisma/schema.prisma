@@ -142,6 +142,8 @@ model Product {
   currency     String   @default("EUR")
   images       Json? // Array of image URLs
   category     String?
+  brand        String? // Brand name
+  brandDescription String? // Brand description
   availability Boolean  @default(true)
   sku          String?
   url          String? // Link to product on store website
@@ -158,6 +160,7 @@ model Product {
   @@index([storeId])
   @@index([availability])
   @@index([category])
+  @@index([brand])
 }
 
 model Event {

@@ -7,7 +7,7 @@ import DefaultLayout from '@/components/DefaultLayout'
 import FavoriteButton from '@/components/FavoriteButton'
 import api from '@/lib/api'
 import toast from 'react-hot-toast'
-import { Store, ArrowLeft, ExternalLink, Phone, Mail } from 'lucide-react'
+import { Store, ArrowLeft, ExternalLink, Phone, Mail, Award, Tag, ChevronDown, ChevronUp } from 'lucide-react'
 
 export default function ProductPage() {
   const params = useParams()
@@ -17,6 +17,13 @@ export default function ProductPage() {
   const [product, setProduct] = useState<any>(null)
   const [relatedProducts, setRelatedProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    description: true,
+    specifications: false,
+    shipping: false,
+    returns: false,
+  })
 
   useEffect(() => {
     if (productId) {
@@ -72,6 +79,13 @@ export default function ProductPage() {
     }
   }
 
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
+
   if (loading) {
     return (
       <DefaultLayout>
@@ -89,7 +103,19 @@ export default function ProductPage() {
     return null
   }
 
-  const imageUrl = product.images?.urls?.[0] || 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800'
+  // Get product images (support both array and object format)
+  const productImages = product.images?.urls || [
+    'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800',
+    'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800',
+    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800',
+    'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800',
+  ]
+  
+  const selectedImage = productImages[selectedImageIndex] || productImages[0]
+  
+  // Extract brand from product metadata or use store name
+  const brandName = product.brand || product.store.name
+  const brandDescription = product.brandDescription || `Premium furniture brand offering exceptional quality and timeless design.`
 
   return (
     <DefaultLayout>
@@ -114,14 +140,36 @@ export default function ProductPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          {/* Product Image - Left Side (Larger) */}
+          {/* Product Images - Left Side (Larger) */}
           <div className="lg:col-span-8">
-            <div className="aspect-[4/5] bg-neutral-100 overflow-hidden mb-4">
+            {/* Main Image */}
+            <div className="aspect-[4/5] bg-neutral-100 overflow-hidden mb-4 rounded-lg">
               <img
-                src={imageUrl}
+                src={selectedImage}
                 alt={product.title}
                 className="w-full h-full object-cover"
               />
+            </div>
+            
+            {/* Image Thumbnails */}
+            <div className="grid grid-cols-4 gap-4">
+              {productImages.map((image: string, index: number) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`aspect-square bg-neutral-100 overflow-hidden rounded-lg transition-all ${
+                    selectedImageIndex === index 
+                      ? 'ring-2 ring-neutral-900 ring-offset-2' 
+                      : 'hover:ring-2 hover:ring-neutral-300 hover:ring-offset-2'
+                  }`}
+                >
+                  <img
+                    src={image}
+                    alt={`${product.title} - Image ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
             </div>
           </div>
 
@@ -167,6 +215,41 @@ export default function ProductPage() {
                   </p>
                 </div>
 
+                {/* Brand Information */}
+                <div className="mb-8 p-5 bg-gradient-to-br from-neutral-50 to-white border border-neutral-200 rounded-lg">
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-lg bg-white border border-neutral-200 flex items-center justify-center flex-shrink-0 shadow-sm">
+                      {product.store.logoUrl ? (
+                        <img
+                          src={product.store.logoUrl}
+                          alt={brandName}
+                          className="w-10 h-10 object-contain"
+                        />
+                      ) : (
+                        <Award className="w-7 h-7 text-neutral-400" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <h4 className="text-sm uppercase tracking-widest font-semibold text-neutral-900">
+                          {brandName}
+                        </h4>
+                        <Tag className="w-3.5 h-3.5 text-neutral-400" />
+                      </div>
+                      <p className="text-xs text-neutral-600 leading-relaxed mb-3">
+                        {brandDescription}
+                      </p>
+                      <Link
+                        href={`/store/${product.store.slug}`}
+                        className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-neutral-900 hover:text-neutral-600 font-medium transition-colors group"
+                      >
+                        Explore Brand
+                        <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-3">
                   <button
                     onClick={handleClickToStore}
@@ -182,6 +265,151 @@ export default function ProductPage() {
                     Request Information
                     <Mail className="w-4 h-4" />
                   </button>
+                </div>
+              </div>
+
+              {/* Expandable Information Sections */}
+              <div className="mb-8 border border-neutral-200 rounded-lg overflow-hidden">
+                {/* Description Section */}
+                <div className="border-b border-neutral-200 last:border-b-0">
+                  <button
+                    onClick={() => toggleSection('description')}
+                    className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
+                  >
+                    <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
+                      Product Details
+                    </span>
+                    {expandedSections.description ? (
+                      <ChevronUp className="w-5 h-5 text-neutral-600" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-neutral-600" />
+                    )}
+                  </button>
+                  {expandedSections.description && (
+                    <div className="px-5 pb-5">
+                      <p className="text-sm text-neutral-600 leading-relaxed">
+                        {product.description || 'This premium piece combines exceptional craftsmanship with contemporary design. Made from high-quality materials, it offers both durability and timeless aesthetic appeal. Perfect for modern living spaces.'}
+                      </p>
+                      {product.sku && (
+                        <p className="text-xs text-neutral-500 mt-4">
+                          SKU: {product.sku}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Specifications Section */}
+                <div className="border-b border-neutral-200 last:border-b-0">
+                  <button
+                    onClick={() => toggleSection('specifications')}
+                    className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
+                  >
+                    <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
+                      Specifications
+                    </span>
+                    {expandedSections.specifications ? (
+                      <ChevronUp className="w-5 h-5 text-neutral-600" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-neutral-600" />
+                    )}
+                  </button>
+                  {expandedSections.specifications && (
+                    <div className="px-5 pb-5">
+                      <div className="space-y-3 text-sm">
+                        <div className="flex justify-between py-2 border-b border-neutral-100">
+                          <span className="text-neutral-500">Category</span>
+                          <span className="text-neutral-900 font-medium">{product.category || 'Furniture'}</span>
+                        </div>
+                        <div className="flex justify-between py-2 border-b border-neutral-100">
+                          <span className="text-neutral-500">Brand</span>
+                          <span className="text-neutral-900 font-medium">{brandName}</span>
+                        </div>
+                        <div className="flex justify-between py-2 border-b border-neutral-100">
+                          <span className="text-neutral-500">Material</span>
+                          <span className="text-neutral-900 font-medium">Premium Quality</span>
+                        </div>
+                        <div className="flex justify-between py-2 border-b border-neutral-100">
+                          <span className="text-neutral-500">Availability</span>
+                          <span className="text-green-600 font-medium">In Stock</span>
+                        </div>
+                        <div className="flex justify-between py-2">
+                          <span className="text-neutral-500">Origin</span>
+                          <span className="text-neutral-900 font-medium">{product.city?.name || 'Europe'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Shipping Section */}
+                <div className="border-b border-neutral-200 last:border-b-0">
+                  <button
+                    onClick={() => toggleSection('shipping')}
+                    className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
+                  >
+                    <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
+                      Shipping & Delivery
+                    </span>
+                    {expandedSections.shipping ? (
+                      <ChevronUp className="w-5 h-5 text-neutral-600" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-neutral-600" />
+                    )}
+                  </button>
+                  {expandedSections.shipping && (
+                    <div className="px-5 pb-5">
+                      <div className="space-y-3 text-sm text-neutral-600">
+                        <p>
+                          <strong className="text-neutral-900">Delivery Time:</strong> Estimated 2-4 weeks depending on your location and product availability.
+                        </p>
+                        <p>
+                          <strong className="text-neutral-900">Shipping Costs:</strong> Calculated at checkout based on delivery address and item size.
+                        </p>
+                        <p>
+                          <strong className="text-neutral-900">White Glove Delivery:</strong> Professional delivery and installation services available upon request.
+                        </p>
+                        <p>
+                          <strong className="text-neutral-900">In-Store Pickup:</strong> Available at {product.store.name} in {product.city?.name}. Contact store for details.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Returns Section */}
+                <div>
+                  <button
+                    onClick={() => toggleSection('returns')}
+                    className="w-full flex items-center justify-between p-5 hover:bg-neutral-50 transition-colors text-left"
+                  >
+                    <span className="font-medium text-neutral-900 uppercase tracking-wider text-sm">
+                      Returns & Warranty
+                    </span>
+                    {expandedSections.returns ? (
+                      <ChevronUp className="w-5 h-5 text-neutral-600" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-neutral-600" />
+                    )}
+                  </button>
+                  {expandedSections.returns && (
+                    <div className="px-5 pb-5">
+                      <div className="space-y-3 text-sm text-neutral-600">
+                        <p>
+                          <strong className="text-neutral-900">Return Policy:</strong> 30-day return period for most items. Product must be unused and in original packaging.
+                        </p>
+                        <p>
+                          <strong className="text-neutral-900">Return Shipping:</strong> Contact the store to arrange return pickup. Return shipping fees may apply.
+                        </p>
+                        <p>
+                          <strong className="text-neutral-900">Warranty:</strong> Manufacturer warranty included. Duration varies by product—contact store for specific warranty information.
+                        </p>
+                        <p>
+                          <strong className="text-neutral-900">Damage Claims:</strong> Report any shipping damage within 48 hours of delivery for full resolution.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 

@@ -29,7 +29,7 @@ router.post(
 
       // Check if user already has a store
       const existingStore = await prisma.store.findUnique({
-        where: { userId: req.user!.id },
+        where: { userId: req.user!.userId },
       });
 
       if (existingStore) {
@@ -42,7 +42,7 @@ router.post(
       // Create store
       const store = await prisma.store.create({
         data: {
-          userId: req.user!.id,
+          userId: req.user!.userId,
           cityId,
           name,
           slug,
@@ -70,7 +70,7 @@ router.post(
 router.get('/me', authenticate, requireRole('STORE'), async (req: AuthRequest, res) => {
   try {
     const store = await prisma.store.findUnique({
-      where: { userId: req.user!.id },
+      where: { userId: req.user!.userId },
       include: {
         city: true,
         _count: {
@@ -94,7 +94,7 @@ router.get('/me', authenticate, requireRole('STORE'), async (req: AuthRequest, r
 router.post('/me/sync', authenticate, requireRole('STORE'), async (req: AuthRequest, res) => {
   try {
     const store = await prisma.store.findUnique({
-      where: { userId: req.user!.id },
+      where: { userId: req.user!.userId },
     });
 
     if (!store) {
@@ -119,7 +119,7 @@ router.post('/me/sync', authenticate, requireRole('STORE'), async (req: AuthRequ
 router.get('/me/sync-logs', authenticate, requireRole('STORE'), async (req: AuthRequest, res) => {
   try {
     const store = await prisma.store.findUnique({
-      where: { userId: req.user!.id },
+      where: { userId: req.user!.userId },
     });
 
     if (!store) {

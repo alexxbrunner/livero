@@ -12,7 +12,7 @@ router.get('/store', authenticate, requireRole('STORE'), async (req: AuthRequest
     const days = parseInt(period as string);
 
     const store = await prisma.store.findUnique({
-      where: { userId: req.user!.id },
+      where: { userId: req.user!.userId },
       include: { city: true },
     });
 
