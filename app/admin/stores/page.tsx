@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/store/authStore'
@@ -8,7 +8,7 @@ import api from '@/lib/api'
 import toast from 'react-hot-toast'
 import { Store as StoreIcon, LogOut, Check, X, Pause, Play } from 'lucide-react'
 
-export default function AdminStores() {
+function AdminStoresContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const statusFilter = searchParams?.get('status')
@@ -245,6 +245,23 @@ export default function AdminStores() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function AdminStores() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <AdminStoresContent />
+    </Suspense>
   )
 }
 
