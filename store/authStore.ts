@@ -21,8 +21,20 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
-      setAuth: (user, token) => set({ user, token }),
-      logout: () => set({ user: null, token: null }),
+      setAuth: (user, token) => {
+        // Also store token directly in localStorage for API interceptor
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('token', token)
+        }
+        set({ user, token })
+      },
+      logout: () => {
+        // Remove token from localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token')
+        }
+        set({ user: null, token: null })
+      },
     }),
     {
       name: 'auth-storage',
