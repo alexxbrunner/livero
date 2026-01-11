@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export interface AuthRequest extends Request {
   user?: {
-    id: string;
+    userId: string;
     email: string;
     role: UserRole;
   };
@@ -31,7 +31,7 @@ export const authenticate = async (
     };
 
     req.user = {
-      id: decoded.userId,
+      userId: decoded.userId,
       email: decoded.email,
       role: decoded.role,
     };

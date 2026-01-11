@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { authMiddleware } from '../middleware/auth.middleware';
+import { authenticate } from '../middleware/auth.middleware';
 
 const router = Router();
 const prisma = new PrismaClient();
 
 // Get customer profile
-router.get('/profile', authMiddleware, async (req: any, res: any) => {
+router.get('/profile', authenticate, async (req: any, res: any) => {
   try {
     if (req.user.role !== 'CUSTOMER') {
       return res.status(403).json({ error: 'Not authorized' });
@@ -35,7 +35,7 @@ router.get('/profile', authMiddleware, async (req: any, res: any) => {
 });
 
 // Update customer profile
-router.patch('/profile', authMiddleware, async (req: any, res: any) => {
+router.patch('/profile', authenticate, async (req: any, res: any) => {
   try {
     if (req.user.role !== 'CUSTOMER') {
       return res.status(403).json({ error: 'Not authorized' });
@@ -60,7 +60,7 @@ router.patch('/profile', authMiddleware, async (req: any, res: any) => {
 });
 
 // Get customer favorites
-router.get('/favorites', authMiddleware, async (req: any, res: any) => {
+router.get('/favorites', authenticate, async (req: any, res: any) => {
   try {
     if (req.user.role !== 'CUSTOMER') {
       return res.status(403).json({ error: 'Not authorized' });
@@ -108,7 +108,7 @@ router.get('/favorites', authMiddleware, async (req: any, res: any) => {
 });
 
 // Add product to favorites
-router.post('/favorites/:productId', authMiddleware, async (req: any, res: any) => {
+router.post('/favorites/:productId', authenticate, async (req: any, res: any) => {
   try {
     if (req.user.role !== 'CUSTOMER') {
       return res.status(403).json({ error: 'Not authorized' });
@@ -180,7 +180,7 @@ router.post('/favorites/:productId', authMiddleware, async (req: any, res: any) 
 });
 
 // Remove product from favorites
-router.delete('/favorites/:productId', authMiddleware, async (req: any, res: any) => {
+router.delete('/favorites/:productId', authenticate, async (req: any, res: any) => {
   try {
     if (req.user.role !== 'CUSTOMER') {
       return res.status(403).json({ error: 'Not authorized' });
@@ -213,7 +213,7 @@ router.delete('/favorites/:productId', authMiddleware, async (req: any, res: any
 });
 
 // Check if product is favorited
-router.get('/favorites/check/:productId', authMiddleware, async (req: any, res: any) => {
+router.get('/favorites/check/:productId', authenticate, async (req: any, res: any) => {
   try {
     if (req.user.role !== 'CUSTOMER') {
       return res.json({ isFavorite: false });
