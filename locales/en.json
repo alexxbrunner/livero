@@ -248,7 +248,7 @@
       "title": "Curated Luxury",
       "titleLine2": "for Your Home",
       "subtitle": "Discover exquisite furniture from Europe's finest interior boutiques.",
-      "exploreVienna": "Explore Vienna",
+      "exploreCity": "Explore {city}",
       "browseCategories": "Browse Categories"
     },
     "cities": {

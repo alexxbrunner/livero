@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import Link from 'next/link'
 import DefaultLayout from '@/components/DefaultLayout'
 import BestsellersCarousel from '@/components/BestsellersCarousel'
@@ -64,7 +65,23 @@ const cities = [
 ]
 
 export default function HomePage() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
+  
+  // Determine the featured city based on the user's locale/country
+  const featuredCity = useMemo(() => {
+    const countryCode = locale.split('-')[1]?.toUpperCase() || 'AT' // default to Austria
+    
+    // Map locale to city
+    const cityMap: Record<string, { name: string; slug: string }> = {
+      'AT': { name: 'Vienna', slug: 'vienna' },      // Austria
+      'SK': { name: 'Bratislava', slug: 'bratislava' }, // Slovakia
+      'DE': { name: 'Munich', slug: 'munich' },      // Germany
+      'CH': { name: 'Zurich', slug: 'zurich' },      // Switzerland
+    }
+    
+    // Check if we have a mapping for the country, otherwise default to Vienna
+    return cityMap[countryCode] || cityMap['AT']
+  }, [locale])
   
   return (
     <DefaultLayout>
@@ -90,13 +107,28 @@ export default function HomePage() {
             {t('home.hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/city/vienna" className="bg-white text-neutral-900 hover:bg-neutral-100 px-10 py-4 text-sm uppercase tracking-widest font-medium transition-all duration-300 min-w-[200px]">
-              {t('home.hero.exploreVienna')}
+            <Link href={`/city/${featuredCity.slug}`} className="bg-white text-neutral-900 hover:bg-neutral-100 px-10 py-4 text-sm uppercase tracking-widest font-medium transition-all duration-300 min-w-[200px]">
+              {t('home.hero.exploreCity', { city: featuredCity.name })}
             </Link>
             <Link href="/categories" className="bg-transparent border border-white text-white hover:bg-white/10 px-10 py-4 text-sm uppercase tracking-widest font-medium transition-all duration-300 min-w-[200px]">
               {t('home.hero.browseCategories')}
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Bestsellers Section */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">{t('home.bestsellers.title')}</h2>
+            <div className="w-24 h-1 bg-neutral-900 mx-auto mb-6"></div>
+            <p className="text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed font-light">
+              {t('home.bestsellers.subtitle')}
+            </p>
+          </div>
+          
+          <BestsellersCarousel />
         </div>
       </section>
 
@@ -128,21 +160,6 @@ export default function HomePage() {
               {t('home.cities.requestCity')}
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Bestsellers Section */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 mb-6">{t('home.bestsellers.title')}</h2>
-            <div className="w-24 h-1 bg-neutral-900 mx-auto mb-6"></div>
-            <p className="text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed font-light">
-              {t('home.bestsellers.subtitle')}
-            </p>
-          </div>
-          
-          <BestsellersCarousel />
         </div>
       </section>
 

@@ -248,7 +248,7 @@
       "title": "Kurátorský Luxus",
       "titleLine2": "pre Váš Domov",
       "subtitle": "Objavte vynikajúci nábytok z najlepších európskych interiérových butikov.",
-      "exploreVienna": "Objaviť Viedeň",
+      "exploreCity": "Objaviť {city}",
       "browseCategories": "Prehľadať Kategórie"
     },
     "cities": {

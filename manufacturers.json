@@ -902,4 +902,28 @@
     "city": "Deutschland",
     "country": "Deutschland",
     "email": "info@brune.de"
+  },
+  {
+    "name": "BuzziSpace",
+    "address": "Italielei 8",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@buzzi.space"
+  },
+  {
+    "name": "Collection Hutter AG",
+    "address": "Gewerbestraße 1",
+    "postal_code": "",
+    "city": "Gewerbestraße 1",
+    "country": "Schweiz",
+    "email": "info@collection-hutter.ch"
+  },
+  {
+    "name": "Cuero Design AB",
+    "address": "Klarabergsviadukten 70",
+    "postal_code": "",
+    "city": "",
+    "country": "",
+    "email": "info@cuerodesign.com"
   }

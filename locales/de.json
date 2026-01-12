@@ -248,7 +248,7 @@
       "title": "Kuratierter Luxus",
       "titleLine2": "für Ihr Zuhause",
       "subtitle": "Entdecken Sie exquisite Möbel aus Europas feinsten Einrichtungsboutiquen.",
-      "exploreVienna": "Wien Entdecken",
+      "exploreCity": "{city} Entdecken",
       "browseCategories": "Kategorien Durchsuchen"
     },
     "cities": {
